@@ -1,0 +1,17 @@
+{
+  "name": "homeDevice",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "An action to change device name.\n   - Parameters:\n     - \"name\" (string, required): The new device name to set.\n\n",
+  "params": {
+    "name": {
+      "type": "string",
+      "desc": "The new device name to set",
+      "isRequired": true
+    }
+  },
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

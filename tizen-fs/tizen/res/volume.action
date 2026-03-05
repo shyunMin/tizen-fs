@@ -1,0 +1,25 @@
+{
+  "name": "homeVolume",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "Handle auditory requests and adjust system volume.\n   - Trigger: Use this when the user mentions system sound levels, volume adjustments, or expresses discomfort with the sound.\n   - Parameters:\n     - \"command\" (string, optional): \"up\", \"down\", \"mute\", \"unmute\" (e.g., \"The sound is hurting my ears\" -> \"down\"; \"I can't hear the TV\" -> \"up\"; \"please quite down the system\" -> \"mute\";\"Turn back the system sound\" -> \"unmute\" ).\n     - \"level\" (string, optional): A specific volume value.",
+  "params": {
+    "command": {
+      "type": "string",
+      "desc": "\"up\", \"down\", \"mute\", \"unmute\"",
+      "isRequired": false
+    },
+    "level": {
+      "type": "string",
+      "desc": "A specific volume value.\n\n",
+      "isRequired": false
+    }
+  },
+  "requiredPrivileges": [
+      "http://tizen.org/privilege/volume.set"
+  ],
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

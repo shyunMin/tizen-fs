@@ -1,0 +1,72 @@
+### [Tool List]
+1. **homeAdditionalFeature**: An action to enable/disable specific features. the supported features are "media", "live", "ai".
+   - Parameters:
+     - "featureName" (string, required): "media", "live", "ai" 
+     - "enabled" (string, required): "on", "off" 
+2. **homeApps**: Action for the **Home Screen App List** (Launching/Sorting/Filtering).
+   - Parameters:
+     - "sort" (string, optional): "DESC" or "ASC".
+     - "type" (string, optional): "", "dotnet", "capp", "webapp".
+     - "app_name" (string, optional): Keyword to filter/search apps.
+3. **homeBluetooth**: Turn on/off Bluetooth.
+   - Parameters:
+     - "command" (string, required): "on", "off".
+4. **homeDevice**: An action to change device name.
+   - Parameters:
+     - "name" (string, required): The new device name to set.
+5. **homeLanguage**: Change system language.
+   - Parameters:
+     - "language" (string, required): "english" or "korean".**Map user input strictly:**
+       - Korean -> "ko_KR"
+       - English -> "en_US"
+6. **homeNotification**: Show system notifications.
+   - Parameters:
+     - "command" (string, required): Must be "show".
+7. **homeSetting**: Open a specific **System Settings** page.
+   - Parameters:
+     - "uri" (string, required): The specific URI string. **Map user intent strictly:**
+       - General Settings -> "/settings"
+       - Profile -> "/settings/profile"
+       - Device Info -> "/settings/about_device"
+       - Date & Time -> "/settings/date_time"
+       - WiFi -> "/settings/wifi"
+       - Bluetooth -> "/settings/bluetooth"
+       - Language -> "/settings/language_input"
+       - **App Settings (Menu)** -> "/settings/apps"
+       - **Installed Apps (List)** -> "/settings/apps/installed_apps"
+       - **Running Apps (List)** -> "/settings/apps/running_apps"
+       - **All Apps (List)** -> "/settings/apps/all_apps"
+       - Storage -> "/settings/storage"
+       - Sound -> "/settings/volume"
+       - Additional Features -> "/settings/additional_features"
+8. **homeVideo**: An action for playing video
+9. **homeVolume**: Handle auditory requests and adjust system volume.
+   - Trigger: Use this when the user mentions system sound levels, volume adjustments, or expresses discomfort with the sound.
+   - Parameters:
+     - "command" (string, optional): "up", "down", "mute", "unmute" (e.g., "The sound is hurting my ears" -> "down"; "I can't hear the TV" -> "up"; "please quite down the system" -> "mute";"Turn back the system sound" -> "unmute" ).
+     - "level" (string, optional): A specific volume value.
+10. **homeWifi**: Turn on/off Wi-Fi.
+   - Parameters:
+     - "command" (string, required): "on", "off".
+11. **homeWifiList**: Get AP list for Wi-Fi.
+   - Condition: This action is available ONLY when Wi-Fi is already activated.
+12. **homeWifiFind**: Find AP in scanned ap list using name to connect
+13. **homeWifiConnect**: Make Connection of Wi-Fi network to specific AP.
+   - Condition: This action is available ONLY when Wi-Fi is already activated.
+   - Parameters:
+     - "ap" (string, required): "the name of AP".
+14. **homeBluetoothList**: Get device list for Bluetooth.
+   - Condition: This action is available ONLY when Bluetooth is already activated.
+15. **homeBluetoothFind**: Find a device in scanned device list using name to connect16. **homeBluetoothConnect**: Make Connection of Bluetooth to specific device.
+   - Condition: This action is available ONLY when Bluetooth is already activated.
+   - Parameters:
+     - "device" (string, required): "the name of the device".
+16. **homeLive**: An action for playing live streaming and ask to user
+   - Condition: This action is triggered when the user's request falls into the following categories:
+     - Child-Oriented Content Requests: When the user asks to play or show something specifically for a child (e.g., 'Play something for my kid,' 'Find a show for the baby').
+     - Boredom or Entertainment Needs: When the user expresses boredom or a general desire for entertainment (e.g., 'I'm bored,' 'Show me something interesting,' 'Give me some entertainment').
+   - Parameters:
+     - "url" (string, required): "kids", "entertainment".
+   - Instructions:
+     - Include a friendly follow-up question in the response, such as: "Would you like me to start the kids' channel for you?" or "Shall I play something fun now?"
+     

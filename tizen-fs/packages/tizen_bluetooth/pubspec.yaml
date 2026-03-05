@@ -1,0 +1,35 @@
+name: tizen_bluetooth
+description: "A new Flutter plugin project."
+version: 0.0.1
+
+environment:
+  sdk: ^3.7.2
+  flutter: ">=3.3.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+
+  # tizen-fs와 동일해야 합니다.
+  tizen_interop:
+    git:
+      url: https://github.sec.samsung.net/f-project/tizen_interop.git
+      ref: tizenfs-v4.0
+  tizen_interop_callbacks:
+    git:
+      url: https://github.sec.samsung.net/f-project/tizen_interop.git
+      path: packages/tizen_interop_callbacks
+      ref: tizenfs-v4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  plugin:
+    platforms:
+      tizen:
+        pluginClass: TizenBluetoothPlugin
+        fileName: tizen_bluetooth_plugin.h

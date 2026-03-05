@@ -1,0 +1,22 @@
+{
+  "name": "homeAdditionalFeature",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "An action to enable/disable specific features. the supported features are \"media\", \"live\", \"ai\".\n   - Parameters:\n     - \"featureName\" (string, required): \"media\", \"live\", \"ai\" \n     - \"enabled\" (string, required): \"on\", \"off\" \n\n",
+  "params": {
+    "featureName": {
+      "type": "string",
+      "desc": "The name of the feature to toggle (media, live, ai)",
+      "isRequired": true
+    },
+    "enabled": {
+      "type": "string",
+      "desc": "\"on\", \"off\"",
+      "isRequired": true
+    }
+  },
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

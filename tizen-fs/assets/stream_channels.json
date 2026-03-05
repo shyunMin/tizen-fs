@@ -1,0 +1,317 @@
+[
+    {
+        "name": "ARIRANG Korea",
+        "logo": "https://www.omnitv.ca/wp-content/uploads/2013/11/628_arirangkorea.jpg",
+        "url": "http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/chunklist_b2256000_sleng.m3u8",
+        "category": "News",
+        "description": "ARIRANG Korea channel."
+    },
+    {
+        "name": "Arirang Radio",
+        "logo": "https://pbs.twimg.com/profile_images/1486225535533719552/c_P3H7bT_400x400.png",
+        "url": "http://amdlive.ctnd.com.edgesuite.net/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8",
+        "category": "Music",
+        "description": "Arirang Radio channel."
+    },
+    {
+        "name": "EBS 1",
+        "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9HHrrqn52ZKV8Okr2EeRfQE_V7O9nuynP4etxLFJdnB89U4VRBCTJCdpbyMUJeStxSLw&usqp=CAU",
+        "url": "https://ebsonair.ebs.co.kr/ebs1familypc/familypc1m/playlist.m3u8",
+        "category": "Education",
+        "description": "EBS 1 channel."
+    },
+    {
+        "name": "EBS 2",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/EBS_2TV_Logo.svg/1200px-EBS_2TV_Logo.svg.png",
+        "url": "https://ebsonair.ebs.co.kr/ebs2familypc/familypc1m/playlist.m3u8",
+        "category": "Education",
+        "description": "EBS 2 channel."
+    },
+    {
+        "name": "EBS Plus 1",
+        "logo": "https://photos.live-tv-channels.org/tv-logo/ebs-plus-1-8814-w700.webp",
+        "url": "https://ebsonair.ebs.co.kr/plus1familypc/familypc1m/playlist.m3u8",
+        "category": "Education",
+        "description": "EBS Plus 1 channel."
+    },
+    {
+        "name": "EBS Plus 2",
+        "logo": "https://static.wikia.nocookie.net/logopedia/images/5/5c/Channels_IPTV_02.png/revision/latest?cb=20180627175021",
+        "url": "https://ebsonair.ebs.co.kr/plus2familypc/familypc1m/playlist.m3u8",
+        "category": "Education",
+        "description": "EBS Plus 2 channel."
+    },
+    {
+        "name": "EBSE",
+        "logo": "https://global.ebs.co.kr/global/img/sub/Channels_IPTV_03.png",
+        "url": "http://ebsonair.ebs.co.kr/plus3familypc/familypc1m/playlist.m3u8",
+        "category": "Education",
+        "description": "EBSE channel."
+    },
+    {
+        "name": "EBS Kids",
+        "logo": "https://static.wikia.nocookie.net/logopedia/images/a/ab/EBS_kids.svg/revision/latest/scale-to-width-down/250?cb=20201221111923",
+        "url": "https://ebsonair.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8",
+        "category": "Kids",
+        "description": "EBS Kids channel."
+    },
+    {
+        "name": "KBS LiveCam DokDo",
+        "logo": "http://world.kbs.co.kr/special/dokdo/images/n_english/main/scene02_03.png",
+        "url": "http://kbs-dokdo.gscdn.com/dokdo_300/dokdo_300.stream/playlist.m3u8",
+        "category": "Documentary",
+        "description": "KBS LiveCam DokDo channel."
+    },
+    {
+        "name": "ABN TV",
+        "logo": "https://tvadvertising.co.uk/wp-content/uploads/2019/11/121_image.png",
+        "url": "https://vod2.abn.co.kr/IPHONE/abn.m3u8",
+        "category": "News",
+        "description": "ABN TV channel."
+    },
+    {
+        "name": "MBC Chuncheon",
+        "logo": "https://play-lh.googleusercontent.com/OUrs7QN5nWUZzDJ10sVqVPyqNg6UXZDex2wfqID6uAaKeQydKRVJimy9ECYe4kMOKs8",
+        "url": "https://stream.chmbc.co.kr/TV/myStream/playlist.m3u8",
+        "category": "Entertainment",
+        "description": "MBC Chuncheon channel."
+    },
+    {
+        "name": "MBC Jeju",
+        "logo": "https://play-lh.googleusercontent.com/OUrs7QN5nWUZzDJ10sVqVPyqNg6UXZDex2wfqID6uAaKeQydKRVJimy9ECYe4kMOKs8",
+        "url": "https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8",
+        "category": "Entertainment",
+        "description": "MBC Jeju channel."
+    },
+    {
+        "name": "MBC Yeosu",
+        "logo": "https://play-lh.googleusercontent.com/OUrs7QN5nWUZzDJ10sVqVPyqNg6UXZDex2wfqID6uAaKeQydKRVJimy9ECYe4kMOKs8",
+        "url": "https://5c3639aa99149.streamlock.net/live_TV/tv/playlist.m3u8",
+        "category": "Entertainment",
+        "description": "MBC Yeosu channel."
+    },
+    {
+        "name": "BTN TV",
+        "logo": "http://www.btn.co.kr/images/main/fs_05.jpg",
+        "url": "https://btn.nowcdn.co.kr/btn/btnlive01/playlist.m3u8",
+        "category": "Religion",
+        "description": "BTN TV channel."
+    },
+    {
+        "name": "국악방송",
+        "logo": "https://pbs.twimg.com/profile_images/883196509982011392/l7yA_yVP_400x400.jpg",
+        "url": "http://mgugaklive.nowcdn.co.kr/gugakvideo/gugakvideo.stream/playlist.m3u8",
+        "category": "Music",
+        "description": "국악방송 channel."
+    },
+    {
+        "name": "Korea TV",
+        "logo": "https://nnew.cc/wp-content/uploads/2018/01/389-1.jpg",
+        "url": "https://hlive.ktv.go.kr/live/klive_h.stream/playlist.m3u8",
+        "category": "News",
+        "description": "Korea TV channel."
+    },
+    {
+        "name": "WBC TV",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b5/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_%D1%82%D0%B5%D0%BB%D0%B5%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%D0%B0_WBC_logo.jpg",
+        "url": "https://cdnlive179.smartucc.kr/smartlive/312/46324be24454bd98f785039457ac695d/playlist.m3u8",
+        "category": "Religion",
+        "description": "WBC TV channel."
+    },
+    {
+        "name": "CJ OnStyle",
+        "logo": "https://img.cjnews.cj.net/wp-content/uploads/2021/10/CJ%EC%98%A8%EC%8A%A4%ED%83%80%EC%9D%BC-%EB%A1%9C%EA%B3%A0.jpg",
+        "url": "https://live-ch1.cjonstyle.net/cjmalllive/stream2/playlist.m3u8",
+        "category": "Shopping",
+        "description": "CJ OnStyle channel."
+    },
+    {
+        "name": "CJ OnStyle Plus",
+        "logo": "https://img.cjnews.cj.net/wp-content/uploads/2021/10/CJ%EC%98%A8%EC%8A%A4%ED%83%80%EC%9D%BC-%EB%A1%9C%EA%B3%A0.jpg",
+        "url": "https://live-ch2.cjonstyle.net/cjosplus/live2/playlist.m3u8",
+        "category": "Shopping",
+        "description": "CJ OnStyle Plus channel."
+    },
+    {
+        "name": "GS Shop",
+        "logo": "https://t1.daumcdn.net/cfile/tistory/99DBC0425C2DBA9112",
+        "url": "https://gstv-gsshop.gsshop.com/gsshop_hd/gsshop_hd.stream/playlist.m3u8",
+        "category": "Shopping",
+        "description": "GS Shop channel."
+    },
+    {
+        "name": "GS My Shop",
+        "logo": "https://needl.co/app/sites/all/custom/resources/company/300/39511/gs-shop.jpg",
+        "url": "https://gstv-myshop.gsshop.com/myshop_hd/myshop_hd.stream/playlist.m3u8",
+        "category": "Shopping",
+        "description": "GS My Shop channel."
+    },
+    {
+        "name": "SK stoa",
+        "logo": "https://i.imgur.com/dhuDviW.png",
+        "url": "http://cast.bshopping.co.kr:8080/live/BSHOPPING.daml/playlist.m3u8",
+        "category": "Shopping",
+        "description": "SK stoa channel."
+    },
+    {
+        "name": "NS홈쇼핑",
+        "logo": "https://image.ajunews.com/content/image/2020/05/07/20200507105021909945.jpg",
+        "url": "http://livestream.nsmall.com:1935/IPHONE/nsmallMobile.m3u8",
+        "category": "Shopping",
+        "description": "NS홈쇼핑 channel."
+    },
+    {
+        "name": "NS Shop+",
+        "logo": "https://i.imgur.com/XobzLSZ.png",
+        "url": "http://shoppstream.nsmall.com:1935/IPHONE/PC.m3u8",
+        "category": "Shopping",
+        "description": "NS Shop+ channel."
+    },
+    {
+        "name": "W Shopping",
+        "logo": "http://m.w-shopping.co.kr/wshoppingImg.png",
+        "url": "https://liveout.catenoid.net/live-05-wshopping/wshopping_1500k/playlist.m3u8",
+        "category": "Shopping",
+        "description": "W Shopping channel."
+    },
+    {
+        "name": "PIX11 New York NY",
+        "logo": "https://image.winudf.com/v2/image1/Y29tLnRyaWJ0di53cGl4Ml9pY29uXzE1NTE4NDM5ODRfMDY2/icon.png?w=&fakeurl=1",
+        "url": "https://content.uplynk.com/channel/98828f7707b84dc496472d5789143df2.m3u8",
+        "category": "News",
+        "description": "PIX11 New York news channel."
+    },
+    {
+        "name": "Newsy",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Newsy_2021.svg/1200px-Newsy_2021.svg.png",
+        "url": "https://547f72e6652371c3.mediapackage.us-east-1.amazonaws.com/out/v1/e3e6e29095844c4ba7d887f01e44a5ef/index.m3u8",
+        "category": "News",
+        "description": "Newsy news channel."
+    },
+    {
+        "name": "Tastemade",
+        "logo": "https://static-prod.adweek.com/wp-content/uploads/2022/05/Tastemade-2022.jpg",
+        "url": "https://tastemadessai.akamaized.net/amagi_hls_data_tastemade-tastemade/CDN/playlist.m3u8",
+        "category": "Lifestyle",
+        "description": "Tastemade food and travel channel."
+    },
+    {
+        "name": "Classic Arts Showcase",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Artschannel.png",
+        "url": "https://classicarts.akamaized.net/hls/live/1024257/CAS/master.m3u8",
+        "category": "Culture",
+        "description": "Classic Arts Showcase channel."
+    },
+    {
+        "name": "Comet",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Comet_logo.svg/1200px-Comet_logo.svg.png",
+        "url": "http://content.uplynk.com/channel/3e45c6b5354a40f787e0b2aadb0f5d6a.m3u8",
+        "category": "Entertainment",
+        "description": "Comet sci-fi channel."
+    },
+    {
+        "name": "Buzzr",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Buzzr_logo.svg/1200px-Buzzr_logo.svg.png",
+        "url": "https://cdn.igocast.com/channel1_hls/channel1_master.m3u8",
+        "category": "Entertainment",
+        "description": "Buzzr game show channel."
+    },
+    {
+        "name": "Court TV",
+        "logo": "https://upload.wikimedia.org/wikipedia/en/b/bf/Court_TV_2019.png",
+        "url": "http://player.teleon.tv/us/channel/court-tv-us",
+        "category": "News",
+        "description": "Court TV legal news channel."
+    },
+    {
+        "name": "WeatherNation",
+        "logo": "https://zsyst.com/wp-content/uploads/2021/01/Weather-Nation-Logo.png",
+        "url": "https://cdn.igocast.com/channel6_hls/channel6_master.m3u8",
+        "category": "Weather",
+        "description": "WeatherNation weather channel."
+    },
+    {
+        "name": "Pluto TV 70s Cinema",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/5f4d878d3d19b30007d2e782/master.m3u8?advertisingId=channel&appName=rokuchannel&appVersion=1.0&bmodel=bm1&channel_id=channel&content=channel&content_rating=ROKU_ADS_CONTENT_RATING&content_type=livefeed&coppa=false&deviceDNT=1&deviceId=channel&deviceMake=rokuChannel&deviceModel=web&deviceType=rokuChannel&deviceVersion=1.0&embedPartner=rokuChannel&genre=ROKU_ADS_CONTENT_GENRE&is_lat=1&platform=web&rdid=channel&studio_id=viacom&tags=ROKU_CONTENT_TAGS",
+        "category": "Movies",
+        "description": "Pluto TV 70s Cinema channel."
+    },
+    {
+        "name": "Pluto TV 80s Rewind",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/5ca525b650be2571e3943c63/master.m3u8?advertisingId=channel&appName=rokuchannel&appVersion=1.0&bmodel=bm1&channel_id=channel&content=channel&content_rating=ROKU_ADS_CONTENT_RATING&content_type=livefeed&coppa=false&deviceDNT=1&deviceId=channel&deviceMake=rokuChannel&deviceModel=web&deviceType=rokuChannel&deviceVersion=1.0&embedPartner=rokuChannel&genre=ROKU_ADS_CONTENT_GENRE&is_lat=1&platform=web&rdid=channel&studio_id=viacom&tags=ROKU_CONTENT_TAGS",
+        "category": "Entertainment",
+        "description": "Pluto TV 80s Rewind channel."
+    },
+    {
+        "name": "Pluto TV 90s Throwback",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/5f4d86f519358a00072b978e/master.m3u8?advertisingId=channel&appName=rokuchannel&appVersion=1.0&bmodel=bm1&channel_id=channel&content=channel&content_rating=ROKU_ADS_CONTENT_RATING&content_type=livefeed&coppa=false&deviceDNT=1&deviceId=channel&deviceMake=rokuChannel&deviceModel=web&deviceType=rokuChannel&deviceVersion=1.0&embedPartner=rokuChannel&genre=ROKU_ADS_CONTENT_GENRE&is_lat=1&platform=web&rdid=channel&studio_id=viacom&tags=ROKU_CONTENT_TAGS",
+        "category": "Entertainment",
+        "description": "Pluto TV 90s Throwback channel."
+    },
+    {
+        "name": "Pluto TV Anime All Day",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5812b7d3249444e05d09cc49/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=0&deviceId=5812b7d3249444e05d09cc49&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false&sid=830&terminate=false&userId=",
+        "category": "Animation",
+        "description": "Pluto TV Anime All Day channel."
+    },
+    {
+        "name": "Pluto TV Movies",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5c5c3b948002db3c3e0b262e/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=1&deviceId=5c5c3b948002db3c3e0b262e&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=DE&serverSideAds=false&sid=eddfafe3-0584-11eb-82fe-0242ac110002&terminate=false&userId=",
+        "category": "Movies",
+        "description": "Pluto TV Movies channel."
+    },
+    {
+        "name": "Pluto TV News",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5268abcd0ce20a8472000114/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=0&deviceId=5268abcd0ce20a8472000114&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false&sid=202&terminate=false&userId=",
+        "category": "News",
+        "description": "Pluto TV News channel."
+    },
+    {
+        "name": "Pluto TV Nature",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5be1c3f9851dd5632e2c91b2/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=1&deviceId=5be1c3f9851dd5632e2c91b2&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=DE&serverSideAds=false&sid=1e26d24e-0585-11eb-82fe-0242ac110002&terminate=false&userId=",
+        "category": "Documentary",
+        "description": "Pluto TV Nature channel."
+    },
+    {
+        "name": "Pluto TV Kids Animation",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/5db0ad56edc89300090d2ebb/master.m3u8?advertisingId=channel&appName=rokuchannel&appVersion=1.0&bmodel=bm1&channel_id=channel&content=channel&content_rating=ROKU_ADS_CONTENT_RATING&content_type=livefeed&coppa=false&deviceDNT=1&deviceId=channel&deviceMake=rokuChannel&deviceModel=web&deviceType=rokuChannel&deviceVersion=1.0&embedPartner=rokuChannel&genre=ROKU_ADS_CONTENT_GENRE&is_lat=1&platform=web&rdid=channel&studio_id=viacom&tags=ROKU_CONTENT_TAGS",
+        "category": "Kids",
+        "description": "Pluto TV Kids Animation channel."
+    },
+    {
+        "name": "Pluto TV Comedy",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5a4d3a00ad95e4718ae8d8db/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=0&deviceId=5a4d3a00ad95e4718ae8d8db&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false&sid=57&terminate=false&userId=",
+        "category": "Comedy",
+        "description": "Pluto TV Comedy channel."
+    },
+    {
+        "name": "Pluto TV Horror",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://stitcher.pluto.tv/stitch/hls/channel/569546031a619b8f07ce6e25/master.m3u8?advertisingId=&appName=&appStoreUrl=&appVersion=2.0.0&app_name=&deviceDNT=0&deviceId=889540f0-712d-11e8-b9ec-8ba319deeadf&deviceLat=38.5783&deviceLon=-90.6666&deviceMake=Chrome&deviceModel=Chrome&deviceType=web&deviceVersion=37.0.2049.0&serverSideAds=false&sid=6e360db0-724b-11e8-be77-bf4d1417b012&userId=",
+        "category": "Horror",
+        "description": "Pluto TV Horror channel."
+    },
+    {
+        "name": "Pluto TV Travel",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/59c01b1953680139c6ae9d4d/master.m3u8?advertisingId=channel&appName=rokuchannel&appVersion=1.0&bmodel=bm1&channel_id=channel&content=channel&content_rating=ROKU_ADS_CONTENT_RATING&content_type=livefeed&coppa=false&deviceDNT=1&deviceId=channel&deviceMake=rokuChannel&deviceModel=web&deviceType=rokuChannel&deviceVersion=1.0&embedPartner=rokuChannel&genre=ROKU_ADS_CONTENT_GENRE&is_lat=1&platform=web&rdid=channel&studio_id=viacom&tags=ROKU_CONTENT_TAGS",
+        "category": "Travel",
+        "description": "Pluto TV Travel channel."
+    },
+    {
+        "name": "Pluto TV True Crime",
+        "logo": "https://www.howtogeek.com/wp-content/uploads/2022/05/Pluto-TV.png?width=398&trim=1,1&bg-color=000&pad=1,1",
+        "url": "https://service-stitcher.clusters.pluto.tv/stitch/hls/channel/5812be1c249444e05d09cc50/master.m3u8?advertisingId=&appName=web&appStoreUrl=&appVersion=DNT&app_name=&architecture=&buildVersion=&deviceDNT=0&deviceId=5812be1c249444e05d09cc50&deviceLat=&deviceLon=&deviceMake=web&deviceModel=web&deviceType=web&deviceVersion=DNT&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false&sid=365&terminate=false&userId=",
+        "category": "Documentary",
+        "description": "Pluto TV True Crime channel."
+    }
+]

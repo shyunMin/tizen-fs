@@ -1,0 +1,12 @@
+{
+  "name": "homeWifiList",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "Get AP list for Wi-Fi.\n   - Condition: This action is available ONLY when Wi-Fi is already activated.\n",
+  "params": {},
+  "requiredPrivileges": [],
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

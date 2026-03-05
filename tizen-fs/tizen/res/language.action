@@ -1,0 +1,17 @@
+{
+  "name": "homeLanguage",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "Change system language.\n   - Parameters:\n     - \"language\" (string, required): \"english\" or \"korean\".**Map user input strictly:**\n       - Korean -> \"ko_KR\"\n       - English -> \"en_US\"\n\n",
+  "params": {
+    "language": {
+      "type": "string",
+      "desc": "\"english\" or \"korean\".**Map user input strictly:**\n- Korean -> \"ko_KR\"\n - English -> \"en_US\"\n\n",
+      "isRequired": true
+    }
+  },
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

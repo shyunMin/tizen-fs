@@ -1,0 +1,18 @@
+{
+  "name": "homeNotification",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "Show system notifications.\n   - Parameters:\n     - \"command\" (string, required): Must be \"show\".\n\n",
+  "params": {
+    "command": {
+      "type": "string",
+      "desc": "A command for notification (show)",
+      "isRequired": true
+    }
+  },
+  "requiredPrivileges": [],
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

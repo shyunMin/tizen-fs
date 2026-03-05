@@ -1,0 +1,12 @@
+{
+  "name": "homeBluetoothList",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "Get device list for Bluetooth.\n   - Condition: This action is available ONLY when Bluetooth is already activated.\n",
+  "params": {},
+  "requiredPrivileges": [],
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

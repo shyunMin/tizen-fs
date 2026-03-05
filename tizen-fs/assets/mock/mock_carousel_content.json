@@ -1,0 +1,26 @@
+[
+  {
+    "overline": "",
+    "title": "Develop innovation with Tizen OS",
+    "description": "Tizen maximizes energy efficiency through low power design. It is also optimized to run high-performance applications even on environments with less than 1GB memory.",
+    "backdrop": "gradient-bg-static-alt-a-D0K-Mjox.jpg",
+    "url": "/opt/usr/globalapps/org.tizen.homescreen/Tizen_SDK_250822.mp4",
+    "buttonText": "Watch Now"
+  },
+  {
+    "overline": "",
+    "title": "Always Stay Up to Date",
+    "description": "We provide long-term support for up to seven years \nso you can always use the latest OS.",
+    "backdrop": "always-stay-up-to-date.png",
+    "url": "",
+    "buttonText": ""
+  },
+  {
+    "overline": "",
+    "title": "Samsung Visual Display with Tizen OS",
+    "description": "Samsung TV leverages AI technology to enhance picture and sound quality while delivering unparalleled user experiences.",
+    "backdrop": "sdc2024.webp",
+    "url": "",
+    "buttonText": ""
+  }
+]

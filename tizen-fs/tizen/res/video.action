@@ -1,0 +1,23 @@
+{
+  "name": "homeVideo",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "An action for playing video",
+  "params": {
+    "title": {
+      "type": "string",
+      "desc": "the title of the video content",
+      "isRequired": false
+    },
+    "url": {
+      "type": "string",
+      "desc": "An url of the video",
+      "isRequired": true
+    }
+  },
+  "requiredPrivileges": [],
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

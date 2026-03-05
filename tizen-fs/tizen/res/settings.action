@@ -1,0 +1,18 @@
+{
+  "name": "homeSetting",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "Open a specific **System Settings** page.\n   - Parameters:\n     - \"uri\" (string, required): The specific URI string. **Map user intent strictly:**\n       - General Settings -> \"/settings\"\n       - Profile -> \"/settings/profile\"\n       - Device Info -> \"/settings/about_device\"\n       - Date & Time -> \"/settings/date_time\"\n       - WiFi -> \"/settings/wifi\"\n       - Bluetooth -> \"/settings/bluetooth\"\n       - Language -> \"/settings/language_input\"\n       - **App Settings (Menu)** -> \"/settings/apps\"\n       - **Installed Apps (List)** -> \"/settings/apps/installed_apps\"\n       - **Running Apps (List)** -> \"/settings/apps/running_apps\"\n       - **All Apps (List)** -> \"/settings/apps/all_apps\"\n       - Storage -> \"/settings/storage\"\n       - Sound -> \"/settings/volume\"\n       - Additional Features -> \"/settings/additional_features\"\n\n",
+  "params": {
+    "uri": {
+      "type": "string",
+      "desc": "The specific URI string. **Map user intent strictly:**\n       - General Settings -> \"/settings\"\n       - Profile -> \"/settings/profile\"\n       - Device Info -> \"/settings/about_device\"\n       - Date & Time -> \"/settings/date_time\"\n       - WiFi -> \"/settings/wifi\"\n       - Bluetooth -> \"/settings/bluetooth\"\n       - Language -> \"/settings/language_input\"\n       - **App Settings (Menu)** -> \"/settings/apps\"\n       - **Installed Apps (List)** -> \"/settings/apps/installed_apps\"\n       - **Running Apps (List)** -> \"/settings/apps/running_apps\"\n       - **All Apps (List)** -> \"/settings/apps/all_apps\"\n       - Storage -> \"/settings/storage\"\n       - Sound -> \"/settings/volume\"\n       - Additional Features -> \"/settings/additional_features\"\n",
+      "isRequired": true
+    }
+  },
+  "requiredPrivileges": [],
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "homeApps",
+  "type": "appControl",
+  "category": "utility",
+  "desc": "Action for the **Home Screen App List** (Launching/Sorting/Filtering).\n   - Parameters:\n     - \"sort\" (string, optional): \"DESC\" or \"ASC\".\n     - \"type\" (string, optional): \"\", \"dotnet\", \"capp\", \"webapp\".\n     - \"app_name\" (string, optional): Keyword to filter/search apps.\n\n",
+  "params": {
+    "sort": {
+      "type": "string",
+      "desc": "\"DESC\" or \"ASC\"",
+      "isRequired": false
+    },
+    "type": {
+      "type": "string",
+      "desc": "\"\", \"dotnet\", \"capp\", \"webapp\"",
+      "isRequired": false
+    },
+    "app_name": {
+      "type": "string",
+      "desc": "The keyword to filter applications by name",
+      "isRequired": false
+    }
+  },
+  "requiredPrivileges": [],
+  "returns": {},
+  "details": {
+    "appid": "org.tizen.homescreen"
+  }
+}
