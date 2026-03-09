@@ -66,7 +66,7 @@ class GeminiService implements AIService {
     if (_chat == null) {
       bool connected = await connect();
       if (!connected) return "Connection Failed";
-    }ㅅ
+    }
 
     try {
       final response = await _chat!.sendMessage(Content.text(message));
