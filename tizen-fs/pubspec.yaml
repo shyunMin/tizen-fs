@@ -42,18 +42,17 @@ dependencies:
   expandable_page_view: ^1.0.17
   shimmer: ^3.0.0
   cached_network_image: ^3.4.1
-
   device_info_plus_tizen: ^1.3.0
   ffi: ^2.0.1
   tizen_interop:
     git:
-      url: https://github.sec.samsung.net/f-project/tizen_interop.git
-      ref: tizenfs-v4.0
+      url: https://github.com/shyunMin/tizen_interop.git
+      ref: tizenfs
   tizen_interop_callbacks:
     git:
-      url: https://github.sec.samsung.net/f-project/tizen_interop.git
+      url: https://github.com/shyunMin/tizen_interop.git
       path: packages/tizen_interop_callbacks
-      ref: tizenfs-v4.0
+      ref: tizenfs
   tizen_bluetooth:
     path: packages/tizen_bluetooth
   tizen_package_manager: ^0.4.1

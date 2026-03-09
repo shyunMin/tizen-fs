@@ -67,7 +67,9 @@ class DateTimeManager {
       timezoneChangedCallback.interopUserData,
     );
     if (result != 0)
-      debugPrint("[DateTimeManager] Error in system_settings_set_changed_cb: $result");
+      debugPrint(
+        "[DateTimeManager] Error in system_settings_set_changed_cb: $result",
+      );
   }
 
   void _unsetSystemCallback() {
@@ -75,7 +77,9 @@ class DateTimeManager {
       tizen.system_settings_key_e.SYSTEM_SETTINGS_KEY_LOCALE_TIMEZONE,
     );
     if (result != 0)
-      debugPrint("[DateTimeManager] Error in system_settings_unset_changed_cb: $result");
+      debugPrint(
+        "[DateTimeManager] Error in system_settings_unset_changed_cb: $result",
+      );
   }
 
   void setTimezoneChangedListener(void Function(String) callback) {
@@ -98,7 +102,9 @@ class DateTimeManager {
         _onTimezoneChanged!(currentTimezone);
       }
     } catch (e) {
-      debugPrint("[DateTimeManager] Error in removeTimezoneChangedListener: $e");
+      debugPrint(
+        "[DateTimeManager] Error in removeTimezoneChangedListener: $e",
+      );
     }
   }
 
