@@ -75,6 +75,7 @@ dependencies:
   http: ^1.6.0
   gradient_borders: ^1.0.2
   google_generative_ai: ^0.4.7
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -103,6 +104,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - .env
     - assets/images/gradient-bg-static-alt-a-D0K-Mjox.jpg
     - assets/images/always-stay-up-to-date.png
     - assets/images/maxresdefault.webp

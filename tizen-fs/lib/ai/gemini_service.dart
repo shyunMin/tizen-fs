@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:tizen_fs/ai/ai_service.dart';
 import 'package:tizen_fs/ai/gauss_service.dart';
 
 class GeminiService implements AIService {
   bool _isInitialized = false;
-  String _apiKey = ''; // Replace with your actual key
+  String _apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
   String _modelName = 'gemini-2.5-flash'; // Default value
   String _systemPrompt = '';
 
@@ -65,7 +66,7 @@ class GeminiService implements AIService {
     if (_chat == null) {
       bool connected = await connect();
       if (!connected) return "Connection Failed";
-    }
+    }ㅅ
 
     try {
       final response = await _chat!.sendMessage(Content.text(message));

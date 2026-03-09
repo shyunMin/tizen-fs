@@ -52,3 +52,6 @@ app.*.map.json
 
 # macos
 /macos/Flutter/
+
+# Environment Variables
+.env

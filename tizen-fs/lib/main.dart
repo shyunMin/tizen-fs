@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -30,8 +31,9 @@ import 'package:tizen_fs/router_service.dart';
 import 'package:tizen_fs/styles/app_style.dart';
 import 'package:tizen_interop/9.0/tizen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
 
   setupAppModel();
   setupSettingProvider();
