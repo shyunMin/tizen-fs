@@ -254,5 +254,7 @@
   "enterDeviceName": "Enter device name",
   "renameDevice": "Rename Device",
   "deviceNameChangedSuccessfully": "Device name changed successfully",
-  "featureStateChangedSuccessfully": "Feature state changed successfully"
+  "featureStateChangedSuccessfully": "Feature state changed successfully",
+  "dns": "DNS",
+  "save": "Save"
 }

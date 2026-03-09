@@ -752,4 +752,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get featureStateChangedSuccessfully => '기능 상태가 성공적으로 변경되었습니다';
+
+  @override
+  String get dns => 'DNS';
+
+  @override
+  String get save => '저장';
 }

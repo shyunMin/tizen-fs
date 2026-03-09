@@ -1585,6 +1585,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Feature state changed successfully'**
   String get featureStateChangedSuccessfully;
+
+  /// No description provided for @dns.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS'**
+  String get dns;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
 }
 
 class _AppLocalizationsDelegate

@@ -761,4 +761,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get featureStateChangedSuccessfully =>
       'Feature state changed successfully';
+
+  @override
+  String get dns => 'DNS';
+
+  @override
+  String get save => 'Save';
 }

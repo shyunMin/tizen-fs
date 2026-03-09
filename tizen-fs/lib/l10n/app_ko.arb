@@ -255,5 +255,7 @@
   "enterDeviceName": "기기 이름 입력",
   "renameDevice": "기기 이름 바꾸기",
   "deviceNameChangedSuccessfully": "기기 이름이 성공적으로 변경되었습니다",
-  "featureStateChangedSuccessfully": "기능 상태가 성공적으로 변경되었습니다"
+  "featureStateChangedSuccessfully": "기능 상태가 성공적으로 변경되었습니다",
+  "dns": "DNS",
+  "save": "저장"
 }

@@ -27,6 +27,7 @@ import 'package:tizen_fs/settings/wifi_page.dart';
 import 'package:tizen_fs/settings/wifi_advanced_page.dart';
 import 'package:tizen_fs/settings/about_device_page.dart';
 import 'package:tizen_fs/settings/network_status_page.dart';
+import 'package:tizen_fs/settings/ethernet_page.dart';
 
 class SettingPages {
   late final PageNode _root;
@@ -224,6 +225,27 @@ class SettingPages {
                 ),
           ),
         ],
+      ),
+    );
+
+    settings.children.add(
+      PageNode(
+        id: 'ethernet',
+        icon: Icons.settings_ethernet,
+        title: 'ethernet',
+        builder:
+            (
+              context,
+              node,
+              isEnabled,
+              onRequestPageUpdate,
+              onRequestPageMove,
+              onRequestGoBack,
+            ) => EthernetPage(
+              node: node,
+              isEnabled: isEnabled,
+              onFocusChanged: onRequestPageUpdate,
+            ),
       ),
     );
 
