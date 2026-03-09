@@ -36,5 +36,5 @@
   1. `git checkout -b feature/issue-<ISSUE_NUMBER>`
   2. `git add .`
   3. `git commit -m "Resolve issue <ISSUE_NUMBER>: [영문 핵심 요약]"`
-  4. `git push shyun feature/issue-<ISSUE_NUMBER>`
-- **PR 생성 (`gh pr create`):** PR의 본문(`--body`)을 작성할 때, 이번 작업의 전반적인 요약과 함께 **Step 3에서 작성했던 `// TODO: [Device API]` 항목들을 찾아 리스트업**하고, 어떤 실제 디바이스 API 연동이 추가로 필요한지 구체적인 설명을 포함하여 작성한다. (PR 본문은 영어로 작성하며, 마지막에 `Resolves #<ISSUE_NUMBER>`를 포함한다.)
+  4. `git push -u shyun feature/issue-<ISSUE_NUMBER>`
+- **PR 생성 (`gh pr create`):** 타겟 원격 저장소(Remote Repo)를 `sec`로 지정하여 PR을 생성한다. (에이전트는 사전에 `git remote -v` 등을 통해 `sec` 원격 저장소의 정확한 `<OWNER>/<REPO>` 경로를 스스로 파악한 뒤, `gh pr create --repo <OWNER>/<REPO> --head shyun:feature/issue-<ISSUE_NUMBER>` 형태로 명령어를 실행할 것). PR의 본문(`--body`)을 작성할 때, 이번 작업의 전반적인 요약과 함께 **Step 3에서 작성했던 `// TODO: [Device API]` 항목들을 찾아 리스트업**하고, 어떤 실제 디바이스 API 연동이 추가로 필요한지 구체적인 설명을 포함하여 작성한다. (PR 본문은 영어로 작성하며, 마지막에 `Resolves #<ISSUE_NUMBER>`를 포함한다.)
