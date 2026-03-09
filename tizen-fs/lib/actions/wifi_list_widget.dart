@@ -42,7 +42,7 @@ class WifiListWidgetState extends State<WifiListWidget> {
           children: [
             Expanded(
               child: Align(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.topLeft,  
                 child: SimpleListView(
                   items: aps,
                   itemBuilder: (context, index, isFocused) {

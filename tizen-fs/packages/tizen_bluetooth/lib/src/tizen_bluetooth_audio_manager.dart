@@ -11,7 +11,6 @@ typedef BtAudioConnectionStateChangedCallback =
     void Function(int, bool, String, BluetoothAudioProfileType);
 
 class TizenBluetoothAudioManager {
-
   static final methodChannel = const MethodChannel('tizen/bluetooth_audio');
 
   static int btInitialize() {
@@ -38,7 +37,6 @@ class TizenBluetoothAudioManager {
     String remoteAddress,
     BluetoothAudioProfileType type,
   ) {
-
     if (_btAudioConnectionStateChangedCallback == null) {
       debugPrint('No callback');
       return -1;
@@ -81,7 +79,6 @@ class TizenBluetoothAudioManager {
     String remoteAddress,
     BluetoothAudioProfileType type,
   ) {
-    
     if (_btAudioConnectionStateChangedCallback == null) {
       debugPrint('No callback');
       return -1;

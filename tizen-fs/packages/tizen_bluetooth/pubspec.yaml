@@ -10,17 +10,17 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-
   # tizen-fs와 동일해야 합니다.
   tizen_interop:
     git:
-      url: https://github.sec.samsung.net/f-project/tizen_interop.git
-      ref: tizenfs-v4.0
+      url: https://github.com/shyunMin/tizen_interop.git
+      ref: tizenfs
   tizen_interop_callbacks:
     git:
-      url: https://github.sec.samsung.net/f-project/tizen_interop.git
+      url: https://github.com/shyunMin/tizen_interop.git
       path: packages/tizen_interop_callbacks
-      ref: tizenfs-v4.0
+      ref: tizenfs
+  ffi: ^2.0.1
 
 dev_dependencies:
   flutter_test:

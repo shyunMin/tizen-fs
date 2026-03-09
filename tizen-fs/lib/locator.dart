@@ -105,7 +105,7 @@ void setupAdditionalFeatureProvider() {
     getIt.registerLazySingleton<TabBarProvider>(() => TabBarProvider());
   }
   if (!getIt.isRegistered<AIProvider>()) {
-    getIt.registerLazySingleton<AIProvider>(() => AIProvider(GaussService()));
+    getIt.registerLazySingleton<AIProvider>(() => AIProvider(GeminiService()));
   }
   if (!getIt.isRegistered<AdditaionalFeatureProvider>()) {
     getIt.registerLazySingleton<AdditaionalFeatureProvider>(
