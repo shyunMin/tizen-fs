@@ -36,5 +36,5 @@
   1. `git checkout -b feature/issue-<ISSUE_NUMBER>`
   2. `git add .`
   3. `git commit -m "Resolve issue <ISSUE_NUMBER>: [영문 핵심 요약]"`
-  4. `git push shyun feature/issue-<ISSUE_NUMBER>`
-- **PR 생성 (`gh pr create`):** PR의 본문(`--body`)을 작성할 때, 이번 작업의 전반적인 요약과 함께 **Step 3에서 작성했던 `// TODO: [Device API]` 항목들을 찾아 리스트업**하고, 어떤 실제 디바이스 API 연동이 추가로 필요한지 구체적인 설명을 포함하여 작성한다. (PR 본문은 영어로 작성하며, 마지막에 `Resolves #<ISSUE_NUMBER>`를 포함한다.)
+  4. `git push -u shyun feature/issue-<ISSUE_NUMBER>`
+- **PR 생성 (`gh pr create`):** 타겟 브랜치를 `sec`로 지정하여(`--base sec --head shyun:feature/issue-<ISSUE_NUMBER>`) PR을 생성한다. PR의 본문(`--body` 또는 프롬프트 입력)을 작성할 때, 이번 작업의 전반적인 요약과 함께 **Step 3에서 작성했던 `// TODO: [Device API]` 항목들을 찾아 리스트업**하고, 어떤 실제 디바이스 API 연동이 추가로 필요한지 구체적인 설명을 포함하여 작성한다. (PR 본문은 영어로 작성하며, 마지막에 `Resolves #<ISSUE_NUMBER>`를 포함한다.)
