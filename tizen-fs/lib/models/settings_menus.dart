@@ -227,6 +227,27 @@ class SettingPages {
         ],
       ),
     );
+    settings.children.add(
+      PageNode(
+        id: 'ethernet',
+        icon: Icons.settings_ethernet_outlined,
+        title: 'ethernet',
+        builder:
+            (
+              context,
+              node,
+              isEnabled,
+              onRequestPageUpdate,
+              onRequestPageMove,
+              onRequestGoBack,
+            ) => EthernetPage(
+              node: node,
+              isEnabled: isEnabled,
+              onFocusChanged: onRequestPageUpdate,
+              onSelectionChanged: onRequestPageMove,
+            ),
+      ),
+    );
 
     settings.children.add(
       PageNode(

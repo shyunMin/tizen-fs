@@ -755,7 +755,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get dns => 'DNS';
+<<<<<<< HEAD
 
   @override
   String get save => '저장';
+=======
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
 }

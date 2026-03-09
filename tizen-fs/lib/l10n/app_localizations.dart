@@ -1591,12 +1591,15 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DNS'**
   String get dns;
+<<<<<<< HEAD
 
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+=======
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
 }
 
 class _AppLocalizationsDelegate

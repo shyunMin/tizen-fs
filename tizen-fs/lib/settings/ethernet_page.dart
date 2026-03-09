@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tizen_fs/generated/localization_map_helper.g.dart';
+<<<<<<< HEAD
 import 'package:tizen_fs/l10n/app_localizations.dart';
 import 'package:tizen_fs/models/page_node.dart';
 import 'package:tizen_fs/styles/app_style.dart';
@@ -8,18 +9,28 @@ import 'package:tizen_fs/widgets/focus_selectable.dart';
 import 'package:tizen_fs/widgets/toast_message.dart';
 import 'package:tizen_fs/providers/network_status_provider.dart';
 import 'package:provider/provider.dart';
+=======
+import 'package:tizen_fs/models/page_node.dart';
+import 'package:tizen_fs/styles/app_style.dart';
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
 
 class EthernetPage extends StatefulWidget {
   const EthernetPage({
     super.key,
     required this.node,
     required this.isEnabled,
+<<<<<<< HEAD
     this.onFocusChanged,
+=======
+    required this.onFocusChanged,
+    required this.onSelectionChanged,
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
   });
 
   final PageNode? node;
   final bool isEnabled;
   final Function(int)? onFocusChanged;
+<<<<<<< HEAD
 
   @override
   State<EthernetPage> createState() => _EthernetPageState();
@@ -40,6 +51,21 @@ class _EthernetPageState extends State<EthernetPage>
 
   int _selected = 0;
   bool _showProgress = false;
+=======
+  final Function(int)? onSelectionChanged;
+
+  @override
+  State<EthernetPage> createState() => EthernetPageState();
+}
+
+class EthernetPageState extends State<EthernetPage> {
+  final List<TextEditingController> _controllers = List.generate(
+    4,
+    (_) => TextEditingController(),
+  );
+  final List<FocusNode> _focusNodes = List.generate(5, (_) => FocusNode());
+  int _selected = 0;
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
 
   @override
   void initState() {
@@ -51,6 +77,7 @@ class _EthernetPageState extends State<EthernetPage>
         }
       });
     }
+<<<<<<< HEAD
 
     // Load initial values from NetworkStatusProvider if possible
     final provider = Provider.of<NetworkStatusProvider>(context, listen: false);
@@ -78,17 +105,30 @@ class _EthernetPageState extends State<EthernetPage>
   void initFocus() {
     _ipFocusNode.requestFocus();
     _selected = 0;
+=======
+  }
+
+  void initFocus() {
+    if (_focusNodes.isNotEmpty && widget.isEnabled) {
+      _focusNodes[_selected].requestFocus();
+    }
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
   }
 
   @override
   void didUpdateWidget(covariant EthernetPage oldWidget) {
     super.didUpdateWidget(oldWidget);
+<<<<<<< HEAD
     if (widget.isEnabled && !oldWidget.isEnabled) {
+=======
+    if (widget.isEnabled) {
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
       initFocus();
     }
   }
 
   @override
+<<<<<<< HEAD
   LogicalKeyboardKey getNextKey() => LogicalKeyboardKey.arrowDown;
 
   @override
@@ -101,11 +141,33 @@ class _EthernetPageState extends State<EthernetPage>
         setState(() {
           _selected = (_selected + 1).clamp(0, 4);
           _updateFocus();
+=======
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    for (var node in _focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  KeyEventResult _onKeyEvent(FocusNode node, KeyEvent event) {
+    if (!widget.isEnabled) return KeyEventResult.ignored;
+
+    if (event is KeyDownEvent) {
+      if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        setState(() {
+          _selected = (_selected + 1).clamp(0, 4);
+          _focusNodes[_selected].requestFocus();
+          widget.onFocusChanged?.call(_selected);
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
         });
         return KeyEventResult.handled;
       } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
         setState(() {
           _selected = (_selected - 1).clamp(0, 4);
+<<<<<<< HEAD
           _updateFocus();
         });
         return KeyEventResult.handled;
@@ -114,11 +176,22 @@ class _EthernetPageState extends State<EthernetPage>
           _handleSave();
           return KeyEventResult.handled;
         }
+=======
+          _focusNodes[_selected].requestFocus();
+          widget.onFocusChanged?.call(_selected);
+        });
+        return KeyEventResult.handled;
+      } else if (event.logicalKey == LogicalKeyboardKey.enter &&
+          _selected == 4) {
+        widget.onSelectionChanged?.call(_selected);
+        return KeyEventResult.handled;
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
       }
     }
     return KeyEventResult.ignored;
   }
 
+<<<<<<< HEAD
   void _updateFocus() {
     switch (_selected) {
       case 0:
@@ -226,10 +299,66 @@ class _EthernetPageState extends State<EthernetPage>
             ),
           ],
         ),
+=======
+  Widget _buildTextField(int index, String labelKey) {
+    final bool isSelected = _selected == index;
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            getLocalizedTextByKey(context, labelKey),
+            style: const TextStyle(fontSize: 18, color: Colors.white70),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            decoration: BoxDecoration(
+              color:
+                  isSelected
+                      ? Colors.white.withAlphaF(0.2)
+                      : Colors.white.withAlphaF(0.1),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color:
+                    isSelected && widget.isEnabled
+                        ? const Color(0xF04285F4)
+                        : Colors.transparent,
+                width: 2,
+              ),
+            ),
+            width: 400,
+            height: 50,
+            child: TextField(
+              controller: _controllers[index],
+              focusNode: _focusNodes[index],
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 12,
+                ),
+                hintText: getLocalizedTextByKey(context, labelKey),
+                hintStyle: const TextStyle(color: Colors.white30),
+              ),
+              onTap: () {
+                if (!widget.isEnabled) return;
+                setState(() {
+                  _selected = index;
+                  _focusNodes[index].requestFocus();
+                  widget.onFocusChanged?.call(index);
+                });
+              },
+            ),
+          ),
+        ],
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
       ),
     );
   }
 
+<<<<<<< HEAD
   Widget _buildSaveButton() {
     final isSelected = _selected == 4;
     return Padding(
@@ -268,6 +397,42 @@ class _EthernetPageState extends State<EthernetPage>
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+=======
+  Widget _buildConnectButton() {
+    final bool isSelected = _selected == 4;
+    return GestureDetector(
+      onTap: () {
+        if (!widget.isEnabled) return;
+        setState(() {
+          _selected = 4;
+          widget.onSelectionChanged?.call(4);
+        });
+      },
+      child: Focus(
+        focusNode: _focusNodes[4],
+        child: AnimatedScale(
+          scale: isSelected && widget.isEnabled ? 1.05 : 1.0,
+          duration: const Duration(milliseconds: 150),
+          child: Container(
+            width: 200,
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color:
+                  isSelected && widget.isEnabled
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.surfaceContainerHighest,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              getLocalizedTextByKey(context, 'connect'),
+              style: TextStyle(
+                fontSize: 16,
+                color:
+                    isSelected && widget.isEnabled
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : Theme.of(context).colorScheme.primary,
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
               ),
             ),
           ),
@@ -278,6 +443,7 @@ class _EthernetPageState extends State<EthernetPage>
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Stack(
       children: [
         Column(
@@ -364,6 +530,67 @@ class _EthernetPageState extends State<EthernetPage>
             ),
           ),
       ],
+=======
+    return Focus(
+      autofocus: widget.isEnabled,
+      onKeyEvent: _onKeyEvent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Title
+          SizedBox(
+            width: widget.isEnabled ? 600 : 400,
+            child: AnimatedPadding(
+              duration: $style.times.med,
+              padding:
+                  widget.isEnabled
+                      ? const EdgeInsets.fromLTRB(120, 60, 40, 0)
+                      : const EdgeInsets.fromLTRB(80, 60, 80, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  getLocalizedTextByKey(
+                    context,
+                    widget.node?.title ?? 'ethernet',
+                  ),
+                  style: const TextStyle(fontSize: 35),
+                ),
+              ),
+            ),
+          ),
+          // Content
+          Expanded(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: AnimatedPadding(
+                duration: $style.times.med,
+                padding:
+                    widget.isEnabled
+                        ? const EdgeInsets.fromLTRB(120, 40, 80, 10)
+                        : const EdgeInsets.fromLTRB(80, 40, 40, 10),
+                child: AbsorbPointer(
+                  absorbing: !widget.isEnabled,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTextField(0, 'ipAddress'),
+                        _buildTextField(1, 'subnetMask'),
+                        _buildTextField(2, 'gateway'),
+                        _buildTextField(3, 'dns'),
+                        const SizedBox(height: 20),
+                        _buildConnectButton(),
+                        const SizedBox(height: 40),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+>>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
     );
   }
 }
