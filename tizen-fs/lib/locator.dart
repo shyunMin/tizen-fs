@@ -1,10 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'package:tizen_fs/ai/gauss_service.dart';
 import 'package:tizen_fs/ai/gemini_service.dart';
 import 'package:tizen_fs/models/app_data_model.dart';
 import 'package:tizen_fs/models/bt_model.dart';
 import 'package:tizen_fs/models/storage_model.dart';
-import 'package:tizen_fs/ai/ai_service.dart';
 import 'package:tizen_fs/native/date_time_manager.dart';
 import 'package:tizen_fs/native/language_input_manager.dart';
 import 'package:tizen_fs/native/notification_manager.dart';

@@ -251,27 +251,6 @@ class SettingPages {
 
     settings.children.add(
       PageNode(
-        id: 'ethernet',
-        icon: Icons.settings_ethernet,
-        title: 'ethernet',
-        builder:
-            (
-              context,
-              node,
-              isEnabled,
-              onRequestPageUpdate,
-              onRequestPageMove,
-              onRequestGoBack,
-            ) => EthernetPage(
-              node: node,
-              isEnabled: isEnabled,
-              onFocusChanged: onRequestPageUpdate,
-            ),
-      ),
-    );
-
-    settings.children.add(
-      PageNode(
         id: 'bluetooth',
         icon: Icons.bluetooth_outlined,
         title: 'bluetooth',

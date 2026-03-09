@@ -764,10 +764,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dns => 'DNS';
-<<<<<<< HEAD
 
   @override
   String get save => 'Save';
-=======
->>>>>>> bdf1ca1 (Resolve issue 6: Add wired network connection menu)
 }
