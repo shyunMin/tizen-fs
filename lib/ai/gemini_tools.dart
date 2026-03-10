@@ -1,43 +1,84 @@
+import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:tizen_fs/native/action_manager.dart';
+import 'package:tizen_fs/native/mcp_service.dart';
 
-/// Additional system instruction text appended to all Gemini models using function calling.
+// ---------------------------------------------------------------------------
+// Gemini Function Calling — Tizen Device Tools
+//
+// These FunctionDeclarations mirror the tools.txt specification.
+// The AI calls these functions instead of producing a raw JSON action block.
+// The uiJsonPayload is NO LONGER a parameter here; genui rendering is handled
+// separately by the AI's text response (normal conversation turn).
+// ---------------------------------------------------------------------------
+
+/// System instruction that replaces logic_flow.txt + output_rules.txt for Gemini.
+/// This tells the model to use Function Calling instead of a raw JSON action block.
 const String kFunctionCallingSystemInstruction = '''
-[Function Calling Rules]
-1. Always call the most appropriate tool (function) for the user's request.
-2. When calling a tool, you MUST populate the `uiJsonPayload` parameter with a valid genui-package JSON string that visually represents the result or control widget for the user.
-3. When the user says the volume is too loud, or their ears hurt, or asks to lower the sound — NEVER use "mute". Always use the "down" command for homeVolume.
+[Function Calling Rules — Replace MODE B with Tool Calls]
+You are a highly intelligent, empathetic AI assistant for a Tizen smart TV device.
+
+DECISION LOGIC (replaces the legacy MODE A / MODE B output rules):
+
+1. GENERAL CONVERSATION (no tool needed):
+   - Weather, knowledge, opinions, casual chat → respond with plain text only.
+   - If a requested action is already in the desired state (e.g. Wi-Fi is already on) → respond in plain text explaining the current state.
+
+2. SYSTEM ACTION (call the matching tool):
+   - Wi-Fi:
+     • "Turn on Wi-Fi" AND wifi_power is "on"  → call homeWifiList
+     • "Turn on Wi-Fi" AND wifi_power is "off" → call homeWifi(command:"on")
+     • "Turn off Wi-Fi" AND wifi_power is "on" → call homeWifi(command:"off")
+   - Bluetooth:
+     • "Turn on Bluetooth" AND bluetooth_power is "on"  → call homeBluetoothList
+     • "Turn on Bluetooth" AND bluetooth_power is "off" → call homeBluetooth(command:"on")
+     • "Turn off Bluetooth" AND bluetooth_power is "on" → call homeBluetooth(command:"off")
+   - Volume: call homeVolume with the appropriate command.
+     ⚠ If the user says ears hurt, sound is too loud, or asks to lower volume → use "down", NEVER "mute".
+   - Boredom / entertainment → call homeLive(url:"entertainment")
+   - Child content → call homeLive(url:"kids")
+   - Specific video → call homeVideo
+   - App-related:
+     • Launch/sort/filter apps on home screen → call homeApps
+     • Configure apps / open settings menu → call homeSetting
+   - All other tool intents → call the matching tool from the tool list.
+
+3. APP VIEWS DISTINCTION:
+   - homeApps (Launcher View): launching apps, sort order of home screen icons, filter by app type.
+   - homeSetting (Management View): configure apps, installed/running lists, settings menus.
+
+4. RESPONSE TEXT (companion text for every tool call):
+   - After calling a tool, you MUST ALSO provide a rich, warm, empathetic text response explaining what you did.
+   - If the action relates to settings, include the relevant settings URL (e.g. "/settings/wifi") in your response.
+   - Use markdown formatting (\\n\\n, **bold**) for readability.
+   - Do NOT output raw JSON in your text response.
 ''';
 
-/// Converts the tools.txt specification into a list of [FunctionDeclaration] objects
-/// used by the Google Generative AI SDK for function calling.
+/// Converts the tools.txt specification into a list of [FunctionDeclaration] objects.
 final List<FunctionDeclaration> tizenFunctionDeclarations = [
   // 1. homeAdditionalFeature
   FunctionDeclaration(
     'homeAdditionalFeature',
-    'Enable or disable specific features such as media, live, or ai.',
+    'Enable or disable specific features (media, live, ai).',
     Schema.object(
       properties: {
         'featureName': Schema.string(
-          description: 'The feature to toggle: "media", "live", or "ai".',
+          description: 'Feature to toggle: "media", "live", or "ai".',
           nullable: false,
         ),
         'enabled': Schema.string(
           description: '"on" to enable, "off" to disable.',
           nullable: false,
         ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
       },
-      requiredProperties: ['featureName', 'enabled', 'uiJsonPayload'],
+      requiredProperties: ['featureName', 'enabled'],
     ),
   ),
 
   // 2. homeApps
   FunctionDeclaration(
     'homeApps',
-    'Perform an action on the Home Screen App List: launch, sort, or filter apps.',
+    'Home Screen App List action: launch, sort, or filter apps.',
     Schema.object(
       properties: {
         'sort': Schema.string(
@@ -45,19 +86,15 @@ final List<FunctionDeclaration> tizenFunctionDeclarations = [
           nullable: true,
         ),
         'type': Schema.string(
-          description: 'Filter by app type: "", "dotnet", "capp", or "webapp".',
+          description: 'Filter by type: "", "dotnet", "capp", or "webapp".',
           nullable: true,
         ),
         'app_name': Schema.string(
-          description: 'Keyword to filter or search apps.',
+          description: 'Keyword to search or filter apps.',
           nullable: true,
         ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
       },
-      requiredProperties: ['uiJsonPayload'],
+      requiredProperties: [],
     ),
   ),
 
@@ -68,15 +105,11 @@ final List<FunctionDeclaration> tizenFunctionDeclarations = [
     Schema.object(
       properties: {
         'command': Schema.string(
-          description: '"on" to enable Bluetooth, "off" to disable.',
-          nullable: false,
-        ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
+          description: '"on" or "off".',
           nullable: false,
         ),
       },
-      requiredProperties: ['command', 'uiJsonPayload'],
+      requiredProperties: ['command'],
     ),
   ),
 
@@ -86,36 +119,24 @@ final List<FunctionDeclaration> tizenFunctionDeclarations = [
     'Change the device name.',
     Schema.object(
       properties: {
-        'name': Schema.string(
-          description: 'The new device name to set.',
-          nullable: false,
-        ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
+        'name': Schema.string(description: 'New device name.', nullable: false),
       },
-      requiredProperties: ['name', 'uiJsonPayload'],
+      requiredProperties: ['name'],
     ),
   ),
 
   // 5. homeLanguage
   FunctionDeclaration(
     'homeLanguage',
-    'Change the system language. Map "korean" -> "ko_KR", "english" -> "en_US".',
+    'Change system language. Map korean→ko_KR, english→en_US.',
     Schema.object(
       properties: {
         'language': Schema.string(
-          description:
-              'Target language code: "ko_KR" for Korean, "en_US" for English.',
-          nullable: false,
-        ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
+          description: '"ko_KR" for Korean, "en_US" for English.',
           nullable: false,
         ),
       },
-      requiredProperties: ['language', 'uiJsonPayload'],
+      requiredProperties: ['language'],
     ),
   ),
 
@@ -129,32 +150,28 @@ final List<FunctionDeclaration> tizenFunctionDeclarations = [
           description: 'Must be "show".',
           nullable: false,
         ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
       },
-      requiredProperties: ['command', 'uiJsonPayload'],
+      requiredProperties: ['command'],
     ),
   ),
 
   // 7. homeSetting
   FunctionDeclaration(
     'homeSetting',
-    'Open a specific System Settings page using the appropriate URI.',
+    'Open a specific System Settings page.',
     Schema.object(
       properties: {
         'uri': Schema.string(
           description:
-              'The settings page URI. Examples: "/settings", "/settings/wifi", "/settings/bluetooth", "/settings/apps", etc.',
-          nullable: false,
-        ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
+              'Settings URI: "/settings", "/settings/wifi", "/settings/bluetooth", '
+              '"/settings/date_time", "/settings/language_input", "/settings/apps", '
+              '"/settings/apps/installed_apps", "/settings/apps/running_apps", '
+              '"/settings/apps/all_apps", "/settings/storage", "/settings/volume", '
+              '"/settings/additional_features", "/settings/profile", "/settings/about_device".',
           nullable: false,
         ),
       },
-      requiredProperties: ['uri', 'uiJsonPayload'],
+      requiredProperties: ['uri'],
     ),
   ),
 
@@ -162,38 +179,26 @@ final List<FunctionDeclaration> tizenFunctionDeclarations = [
   FunctionDeclaration(
     'homeVideo',
     'Play a video.',
-    Schema.object(
-      properties: {
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
-      },
-      requiredProperties: ['uiJsonPayload'],
-    ),
+    Schema.object(properties: {}, requiredProperties: []),
   ),
 
   // 9. homeVolume
   FunctionDeclaration(
     'homeVolume',
-    'Adjust the system volume. If the user says ears hurt or sound is too loud, use "down" — never "mute".',
+    'Adjust system volume. Use "down" when user expresses discomfort — never "mute".',
     Schema.object(
       properties: {
         'command': Schema.string(
           description:
-              'Volume command: "up", "down", "mute", or "unmute". Use "down" when user expresses discomfort with loud sound.',
+              '"up", "down", "mute", or "unmute". Use "down" for auditory discomfort.',
           nullable: true,
         ),
         'level': Schema.string(
-          description: 'A specific volume level value.',
+          description: 'Specific volume value (0–100).',
           nullable: true,
         ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
       },
-      requiredProperties: ['uiJsonPayload'],
+      requiredProperties: [],
     ),
   ),
 
@@ -204,84 +209,56 @@ final List<FunctionDeclaration> tizenFunctionDeclarations = [
     Schema.object(
       properties: {
         'command': Schema.string(
-          description: '"on" to enable Wi-Fi, "off" to disable.',
-          nullable: false,
-        ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
+          description: '"on" or "off".',
           nullable: false,
         ),
       },
-      requiredProperties: ['command', 'uiJsonPayload'],
+      requiredProperties: ['command'],
     ),
   ),
 
   // 11. homeWifiList
   FunctionDeclaration(
     'homeWifiList',
-    'Get the list of available Wi-Fi access points. Available ONLY when Wi-Fi is already activated.',
-    Schema.object(
-      properties: {
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
-      },
-      requiredProperties: ['uiJsonPayload'],
-    ),
+    'Get list of available Wi-Fi APs. Only when Wi-Fi is already active.',
+    Schema.object(properties: {}, requiredProperties: []),
   ),
 
   // 12. homeWifiFind
   FunctionDeclaration(
     'homeWifiFind',
-    'Find an access point in the scanned Wi-Fi list by name.',
+    'Find a specific AP in the scanned list by name.',
     Schema.object(
       properties: {
         'name': Schema.string(
-          description: 'The SSID name of the AP to find.',
+          description: 'SSID to search for.',
           nullable: true,
         ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
       },
-      requiredProperties: ['uiJsonPayload'],
+      requiredProperties: [],
     ),
   ),
 
   // 13. homeWifiConnect
   FunctionDeclaration(
     'homeWifiConnect',
-    'Connect to a specific Wi-Fi access point. Available ONLY when Wi-Fi is already activated.',
+    'Connect to a specific Wi-Fi AP. Only when Wi-Fi is already active.',
     Schema.object(
       properties: {
         'ap': Schema.string(
-          description: 'The name (SSID) of the AP to connect to.',
-          nullable: false,
-        ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
+          description: 'SSID of the AP to connect to.',
           nullable: false,
         ),
       },
-      requiredProperties: ['ap', 'uiJsonPayload'],
+      requiredProperties: ['ap'],
     ),
   ),
 
   // 14. homeBluetoothList
   FunctionDeclaration(
     'homeBluetoothList',
-    'Get the list of available Bluetooth devices. Available ONLY when Bluetooth is already activated.',
-    Schema.object(
-      properties: {
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
-      },
-      requiredProperties: ['uiJsonPayload'],
-    ),
+    'Get list of nearby Bluetooth devices. Only when Bluetooth is already active.',
+    Schema.object(properties: {}, requiredProperties: []),
   ),
 
   // 15. homeBluetoothFind
@@ -291,45 +268,41 @@ final List<FunctionDeclaration> tizenFunctionDeclarations = [
     Schema.object(
       properties: {
         'name': Schema.string(
-          description: 'The name of the Bluetooth device to find.',
+          description: 'Device name to search for.',
           nullable: true,
         ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
-          nullable: false,
-        ),
       },
-      requiredProperties: ['uiJsonPayload'],
+      requiredProperties: [],
     ),
   ),
 
   // 16. homeLive
   FunctionDeclaration(
     'homeLive',
-    'Play live streaming content for kids or entertainment. Ask a follow-up question after selection.',
+    'Play live streaming for kids or entertainment. Ask a follow-up question.',
     Schema.object(
       properties: {
         'url': Schema.string(
-          description: 'Content type to stream: "kids" or "entertainment".',
-          nullable: false,
-        ),
-        'uiJsonPayload': Schema.string(
-          description: '명령 수행 결과나 제어 위젯을 화면에 보여주기 위한 genui 패키지 규격의 JSON 문자열',
+          description: '"kids" or "entertainment".',
           nullable: false,
         ),
       },
-      requiredProperties: ['url', 'uiJsonPayload'],
+      requiredProperties: ['url'],
     ),
   ),
 ];
 
-/// Handles an AI function call by running the appropriate device action
-/// and returning a `<gen_ui>` wrapped payload for the UI layer.
+/// Executes the device action corresponding to [name] with [args].
 ///
-/// Returns a `<gen_ui>...</gen_ui>` string if [uiJsonPayload] is present.
-/// Otherwise returns an empty string.
-String handleFunctionCall(String name, Map<String, Object?> args) {
-  final uiJsonPayload = args['uiJsonPayload'] as String? ?? '';
+/// Returns `null` — the caller is responsible for using McpService or
+/// ActionManager. UI rendering is handled by the AI's text response.
+Future<void> executeFunctionCall(
+  String name,
+  Map<String, Object?> args, {
+  required bool isEmulator,
+}) async {
+  final actionData = <String, dynamic>{'__K_ACTION_NAME': name, ...args};
+  debugPrint('[FunctionCall] Executing: $name args=$args');
 
   switch (name) {
     case 'homeAdditionalFeature':
@@ -381,9 +354,14 @@ String handleFunctionCall(String name, Map<String, Object?> args) {
       // TODO: [Device API] homeLive 파라미터 연동
       break;
     default:
-      break;
+      debugPrint('[FunctionCall] Unknown function: $name');
+      return;
   }
 
-  // Always return the uiJsonPayload wrapped in <gen_ui> tags for the UI layer to render.
-  return '<gen_ui>$uiJsonPayload</gen_ui>';
+  // Dispatch through the existing action pipeline.
+  if (isEmulator) {
+    ActionManager.runAction(actionData);
+  } else {
+    await McpService.runTool(actionData);
+  }
 }
