@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:tizen_fs/ai/ai_service.dart';
 import 'package:tizen_fs/ai/gauss_service.dart';
 import 'package:tizen_fs/ai/gemini_tools.dart';
+import 'package:tizen_fs/ai/tizen_catalog.dart';
 
 class GeminiService implements AIService {
   bool _isInitialized = false;
@@ -39,10 +40,11 @@ class GeminiService implements AIService {
     await _init();
     if (!_isInitialized) return false;
 
-    // Combine the base system prompt with the Function Calling instruction rules.
+    // Combine base prompt + function calling rules + widget catalog schema for the AI.
     _systemPrompt =
         _promptManager.generateFullPrompt() +
-        '\n\n$kFunctionCallingSystemInstruction';
+        '\n\n$kFunctionCallingSystemInstruction' +
+        '\n\n$kTizenCatalogInstruction';
 
     try {
       _model = GenerativeModel(
