@@ -8,32 +8,9 @@ import 'package:tizen_fs/ai/gauss_service.dart';
 import 'package:tizen_fs/ai/gemini_tools.dart';
 import 'package:tizen_fs/providers/device_info_provider.dart';
 import 'package:tizen_fs/locator.dart';
-
-/// System instruction documenting the genui built-in widget catalog.
-///
-/// This tells the AI which widgets it can reference in its text response
-/// so that the UI layer can optionally render them. Since we only use
-/// genui built-in widgets, no custom catalog is registered.
-const String _kGenUiBuiltinInstruction = '''
-[GenUI Built-in Widget Reference]
-When your text response includes a structured UI result (e.g. a list, a status),
-you MAY produce a genui component array embedded in a <gen_ui>...</gen_ui> tag
-using ONLY the following built-in widgets:
-
-Text   — {"Text": {"text": {"literalString": "..."}, "hint": "body1"}}
-Image  — {"Image": {"url": {"literalString": "https://..."}, "hint": "mediumFeature"}}
-Column — {"Column": {"children": ["<childId1>", "<childId2>"]}}
-Row    — {"Row": {"children": ["<childId1>", "<childId2>"]}}
-Card   — {"Card": {"child": "<childId>"}}
-
-Format: a JSON array where each object has "id" and "component" keys.
-One object MUST have "id": "root".
-Example:
-<gen_ui>[{"id":"root","component":{"Text":{"text":{"literalString":"Wi-Fi is now ON."},"hint":"body1"}}}]</gen_ui>
-
-Only include a <gen_ui> block when it genuinely improves the UX.
-For simple confirmations, plain text is preferred.
-''';
+import 'package:tizen_fs/ai/ai_provider.dart';
+import 'package:tizen_fs/ai/genui_adapter.dart';
+import 'package:genui/genui.dart';
 
 class GeminiService implements AIService {
   bool _isInitialized = false;
@@ -70,19 +47,37 @@ class GeminiService implements AIService {
     if (!_isInitialized) return false;
 
     // Combine the base system prompt with function calling rules (logic_flow + output_rules)
-    // and the genui built-in widget reference.
     _systemPrompt =
         _promptManager.generateFullPrompt() +
-        '\n\n$kFunctionCallingSystemInstruction' +
-        '\n\n$_kGenUiBuiltinInstruction';
+        '\n\n$kFunctionCallingSystemInstruction';
 
     try {
+      final a2uiTools = <AiTool>[
+        SurfaceUpdateTool(
+          handleMessage: getIt<AIProvider>().a2uiProcessor.handleMessage,
+          catalog: CoreCatalogItems.asCatalog(),
+        ),
+        DeleteSurfaceTool(
+          handleMessage: getIt<AIProvider>().a2uiProcessor.handleMessage,
+        ),
+      ];
+
+      final gaiA2uiTools =
+          a2uiTools.map(convertGenuiToolToFunctionDeclaration).toList();
+
       _model = GenerativeModel(
         model: _modelName,
         apiKey: _apiKey,
         systemInstruction: Content.system(_systemPrompt),
-        // Register all 16 Tizen device tools for function calling.
-        tools: [Tool(functionDeclarations: tizenFunctionDeclarations)],
+        // Register Tizen tools + GenUI tool(s)
+        tools: [
+          Tool(
+            functionDeclarations: [
+              ...tizenFunctionDeclarations,
+              ...gaiA2uiTools,
+            ],
+          ),
+        ],
       );
       _chat = _model!.startChat();
       return true;
@@ -105,17 +100,39 @@ class GeminiService implements AIService {
       // Handle function call + companion text in the same response turn.
       final functionCalls = response.functionCalls.toList();
       if (functionCalls.isNotEmpty) {
-        final call = functionCalls.first;
-        debugPrint(
-          '[GeminiService] Function call: ${call.name}, args: ${call.args}',
-        );
+        final a2uiTools = <AiTool>[
+          SurfaceUpdateTool(
+            handleMessage: getIt<AIProvider>().a2uiProcessor.handleMessage,
+            catalog: CoreCatalogItems.asCatalog(),
+          ),
+          DeleteSurfaceTool(
+            handleMessage: getIt<AIProvider>().a2uiProcessor.handleMessage,
+          ),
+        ];
 
-        // Execute the device action via ActionManager / McpService.
-        await executeFunctionCall(
-          call.name,
-          call.args,
-          isEmulator: _isEmulator,
-        );
+        for (final call in functionCalls) {
+          debugPrint(
+            '[GeminiService] Function call: ${call.name}, args: ${call.args}',
+          );
+
+          var isA2ui = false;
+          for (final tool in a2uiTools) {
+            if (tool.name == call.name) {
+              await tool.invoke(call.args);
+              isA2ui = true;
+              break;
+            }
+          }
+
+          if (!isA2ui) {
+            // Execute the device action via ActionManager / McpService.
+            await executeFunctionCall(
+              call.name,
+              call.args,
+              isEmulator: _isEmulator,
+            );
+          }
+        }
 
         // Return the companion text the AI provided alongside the function call.
         // If the model gave no text (some models omit it), give a sensible fallback.
@@ -123,7 +140,7 @@ class GeminiService implements AIService {
         if (companionText != null && companionText.trim().isNotEmpty) {
           return companionText;
         }
-        return '✅ ${call.name} has been executed.';
+        return '✅ Commands executed.';
       }
 
       // Normal conversation response (MODE A — no tool invoked).

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tizen_fs/locator.dart';
-import 'package:tizen_fs/native/mcp_service.dart';
-import 'package:tizen_fs/native/action_manager.dart';
 import 'package:tizen_fs/ai/ai_service.dart';
-import 'package:tizen_fs/providers/device_info_provider.dart';
+import 'package:genui/genui.dart';
 
 class ChatMessage {
   final String content;
@@ -27,7 +24,6 @@ class AIProvider extends ChangeNotifier {
   bool _isConnected = false;
   bool _isConnecting = false;
   bool _enabled = false;
-  bool _isEmulator = false;
 
   Future<bool>? _connect;
   Future<String>? _sendMessage;
@@ -69,7 +65,24 @@ class AIProvider extends ChangeNotifier {
   List<ChatMessage> get messageHistory => List.unmodifiable(_messageHistory);
 
   final AIService _service;
-  AIProvider(this._service);
+  late final A2uiMessageProcessor a2uiProcessor;
+
+  AIProvider(this._service) {
+    a2uiProcessor = A2uiMessageProcessor(
+      catalogs: [CoreCatalogItems.asCatalog()],
+    );
+
+    a2uiProcessor.surfaceUpdates.listen((update) {
+      if (update is SurfaceAdded) {
+        // Render the newly added GenUI surface into the chat log
+        addSystemMessageWithWidget(
+          GenUiSurface(host: a2uiProcessor, surfaceId: update.surfaceId),
+          GenUiSurface,
+        );
+      }
+      // Note: SurfaceUpdated and SurfaceRemoved are handled natively by GenUiSurface rebuilds.
+    });
+  }
 
   void updateLastMessageWithWidget(Widget widget) {
     if (_messageHistory.isNotEmpty && !_messageHistory.last.isUser) {
@@ -103,7 +116,6 @@ class AIProvider extends ChangeNotifier {
   Future<void> enable() async {
     if (isConnected) return;
 
-    _isEmulator = await getIt<DeviceInfoProvider>().isEmulator();
     await connect();
     if (isConnected) {
       responseMessage = '**${_service.modelName}** has been connected.';
@@ -133,7 +145,6 @@ class AIProvider extends ChangeNotifier {
     if (isConnected) return;
 
     isConnecting = true;
-    _isEmulator = await getIt<DeviceInfoProvider>().isEmulator();
     _connect ??= _service.connect();
     isConnected = await _connect ?? false;
     _connect = null;
@@ -162,67 +173,19 @@ class AIProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-    _sendMessage ??= _service.sendMessage(message);
     final response = await _sendMessage ?? '';
     _sendMessage = null;
 
     isThinking = false;
 
-    Widget? responseWidget;
-    bool isGenUi = false;
+    // The AI's companion text is always returned as a normal response.
+    // UI rendering (SurfaceAdded) is handled independently via a2uiProcessor stream.
+    responseMessage = response;
 
-    // Detect GenUI response: <gen_ui>...</gen_ui> (A2UI function call result).
-    final genUiMatch = RegExp(
-      r'^<gen_ui>([\s\S]*)<\/gen_ui>$',
-    ).firstMatch(response.trim());
-
-    if (genUiMatch != null) {
-      // Extract the raw genui JSON payload from the tag.
-      final genUiPayload = genUiMatch.group(1) ?? '';
-      responseMessage = genUiPayload;
-      isGenUi = true;
-    }
-    // Handle legacy wrapped JSON format with message and action fields.
-    else if (response.startsWith('{')) {
-      try {
-        final Map<String, dynamic> responseData = ActionManager.genActionData(
-          response,
-        );
-
-        // Extract message field.
-        if (responseData.containsKey('message')) {
-          responseMessage = responseData['message'].toString();
-        }
-
-        // Extract and execute action field if present.
-        if (responseData.containsKey('action')) {
-          final actionData = responseData['action'];
-          debugPrint('_isEmulator=$_isEmulator');
-          if (actionData is Map<String, dynamic>) {
-            if (_isEmulator) {
-              ActionManager.runAction(actionData);
-            } else {
-              await McpService.runTool(actionData);
-            }
-          }
-        }
-      } catch (e) {
-        // If JSON parsing fails, treat as plain text.
-        responseMessage = response;
-      }
-    } else {
-      responseMessage = response;
-    }
-
-    // Add AI response to history.
     _messageHistory.add(
-      ChatMessage(
-        content: responseMessage,
-        isUser: false,
-        isGenUi: isGenUi,
-        widget: responseWidget,
-      ),
+      ChatMessage(content: response, isUser: false, isGenUi: false),
     );
+
     notifyListeners();
   }
 }
