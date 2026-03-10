@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:tizen_fs/ai/ai_service.dart';
 import 'package:tizen_fs/locator.dart';
 import 'package:tizen_fs/models/bt_model.dart';
@@ -56,9 +57,10 @@ class GaussService implements AIService {
       }
 
       final Map<String, dynamic> configJson = json.decode(gaussConfig);
-      _clientKey = configJson['client_key'] ?? '';
-      _passKey = configJson['pass_key'] ?? '';
-      _email = configJson['email'] ?? '';
+      _clientKey =
+          dotenv.env['GAUSS_CLIENT_KEY'] ?? configJson['client_key'] ?? '';
+      _passKey = dotenv.env['GAUSS_PASS_KEY'] ?? configJson['pass_key'] ?? '';
+      _email = dotenv.env['GAUSS_EMAIL'] ?? configJson['email'] ?? '';
       _endpointUrl = configJson['endpoint_url'] ?? '';
     } catch (e) {
       debugPrint('Failed to load config file: $e');

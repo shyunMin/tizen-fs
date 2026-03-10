@@ -75,6 +75,7 @@ dependencies:
   http: ^1.6.0
   gradient_borders: ^1.0.2
   google_generative_ai: ^0.4.7
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -119,6 +120,7 @@ flutter:
     - assets/output_rules.txt
     - assets/device_status.txt
     - assets/tools.txt
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
