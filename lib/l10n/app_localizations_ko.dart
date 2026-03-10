@@ -69,6 +69,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get gateway => '게이트웨이';
 
   @override
+  String get dns => 'DNS';
+
+  @override
   String get connectionStatus => '연결 상태';
 
   @override

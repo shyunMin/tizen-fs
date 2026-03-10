@@ -69,6 +69,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gateway => 'Gateway';
 
   @override
+  String get dns => 'DNS';
+
+  @override
   String get connectionStatus => 'Connection Status';
 
   @override

@@ -6,6 +6,8 @@ import 'package:tizen_fs/settings/additional_feature_ai.dart';
 import 'package:tizen_fs/settings/apps_detail_page.dart';
 import 'package:tizen_fs/settings/apps_page.dart';
 import 'package:tizen_fs/settings/bluetooth_page.dart';
+import 'package:tizen_fs/settings/ethernet_page.dart';
+import 'package:tizen_fs/settings/bluetooth_page.dart';
 import 'package:tizen_fs/settings/date_time_page.dart';
 import 'package:tizen_fs/settings/device_info_page.dart';
 import 'package:tizen_fs/settings/end_page.dart';
@@ -224,6 +226,29 @@ class SettingPages {
                 ),
           ),
         ],
+      ),
+    );
+
+    settings.children.add(
+      PageNode(
+        id: 'ethernet',
+        icon: Icons.settings_ethernet_outlined,
+        title: 'ethernet',
+        builder:
+            (
+              context,
+              node,
+              isEnabled,
+              onRequestPageUpdate,
+              onRequestPageMove,
+              onRequestGoBack,
+            ) => EthernetPage(
+              node: node,
+              isEnabled: isEnabled,
+              onFocusChanged: onRequestPageUpdate,
+              onSelectionChanged: onRequestPageMove,
+            ),
+        isEnd: true,
       ),
     );
 

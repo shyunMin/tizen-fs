@@ -20,6 +20,7 @@
   "ipAddress": "IP 주소",
   "subnetMask": "서브넷 마스크",
   "gateway": "게이트웨이",
+  "dns": "DNS",
   "connectionStatus": "연결 상태",
   "connected": "연결됨",
   "disconnected": "연결 안됨",
