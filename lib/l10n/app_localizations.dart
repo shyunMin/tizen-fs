@@ -218,6 +218,12 @@ abstract class AppLocalizations {
   /// **'Gateway'**
   String get gateway;
 
+  /// No description provided for @dns.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS'**
+  String get dns;
+
   /// No description provided for @connectionStatus.
   ///
   /// In en, this message translates to:
