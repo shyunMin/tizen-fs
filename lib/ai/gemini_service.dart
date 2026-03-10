@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:tizen_fs/ai/ai_service.dart';
 import 'package:tizen_fs/ai/gauss_service.dart';
@@ -21,6 +22,7 @@ class GeminiService implements AIService {
   Future<void> _init() async {
     if (_isInitialized) return;
 
+    _apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
     // Add initialization for _promptManager if needed
     await _promptManager.initialize();
     _isInitialized = true;
