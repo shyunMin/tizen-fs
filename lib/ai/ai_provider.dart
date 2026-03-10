@@ -11,10 +11,14 @@ class ChatMessage {
   final Widget? widget;
   final DateTime timestamp;
 
+  /// If true, [content] holds a genui JSON payload to be rendered as a UI widget.
+  final bool isGenUi;
+
   ChatMessage({
     required this.content,
     required this.isUser,
     this.widget,
+    this.isGenUi = false,
     DateTime? timestamp,
   }) : timestamp = timestamp ?? DateTime.now();
 }
@@ -74,6 +78,7 @@ class AIProvider extends ChangeNotifier {
         content: lastMessage.content,
         isUser: lastMessage.isUser,
         widget: widget,
+        isGenUi: lastMessage.isGenUi,
         timestamp: lastMessage.timestamp,
       );
 
@@ -164,20 +169,32 @@ class AIProvider extends ChangeNotifier {
     isThinking = false;
 
     Widget? responseWidget;
+    bool isGenUi = false;
 
-    // Handle new wrapped JSON format with message and action fields
-    if (response.startsWith('{')) {
+    // Detect GenUI response: <gen_ui>...</gen_ui> (A2UI function call result).
+    final genUiMatch = RegExp(
+      r'^<gen_ui>([\s\S]*)<\/gen_ui>$',
+    ).firstMatch(response.trim());
+
+    if (genUiMatch != null) {
+      // Extract the raw genui JSON payload from the tag.
+      final genUiPayload = genUiMatch.group(1) ?? '';
+      responseMessage = genUiPayload;
+      isGenUi = true;
+    }
+    // Handle legacy wrapped JSON format with message and action fields.
+    else if (response.startsWith('{')) {
       try {
         final Map<String, dynamic> responseData = ActionManager.genActionData(
           response,
         );
 
-        // Extract message field
+        // Extract message field.
         if (responseData.containsKey('message')) {
           responseMessage = responseData['message'].toString();
         }
 
-        // Extract and execute action field if present
+        // Extract and execute action field if present.
         if (responseData.containsKey('action')) {
           final actionData = responseData['action'];
           debugPrint('_isEmulator=$_isEmulator');
@@ -190,18 +207,19 @@ class AIProvider extends ChangeNotifier {
           }
         }
       } catch (e) {
-        // If JSON parsing fails, treat as plain text
+        // If JSON parsing fails, treat as plain text.
         responseMessage = response;
       }
     } else {
       responseMessage = response;
     }
 
-    // Add AI response to history
+    // Add AI response to history.
     _messageHistory.add(
       ChatMessage(
         content: responseMessage,
         isUser: false,
+        isGenUi: isGenUi,
         widget: responseWidget,
       ),
     );
