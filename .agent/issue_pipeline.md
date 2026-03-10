@@ -28,7 +28,48 @@
   1. `git checkout -b feature/issue-<ISSUE_NUMBER>`
   2. `git add .`
   3. `git commit -m "Resolve issue <ISSUE_NUMBER>: [한글 핵심 요약]"`
+  4. `git push -u shyun feature/issue-<ISSUE_NUMBER># Issue Resolution Pipeline
+
+**Role:** 너는 주어진 GitHub 이슈를 처음부터 끝까지 스스로 분석, 계획, 구현, 검증, PR 생성까지 수행하는 자율 개발 에이전트이다.
+
+**Input:** 사용자가 채팅창에 제공한 `ISSUE_NUMBER`
+
+---
+
+## 🛠️ Execution Steps (순서대로 실행할 것)
+
+### Step 1: 이슈 분석 (Issue Analysis)
+- 터미널에서 `gh issue view https://github.com/shyunMin/tizen-fs/issues/<ISSUE_NUMBER>` 명령어를 실행한다.
+- 출력된 본문과 요구사항을 꼼꼼히 읽고 목표를 파악한다.
+
+### Step 2: 코드 구현 및 빌드 검증 (Implementation & Build)
+- **[중요] UI 가이드라인 조건부 확인 및 실행:** UI 관련 구현이 포함된 이슈일 경우, 먼저 `.agent/ui_guideline.md` 파일이 존재하는지 확인한다.
+  - **파일이 없다면:** 현재 작업을 일시 중단하고, 즉시 `.agent/ui_extraction_pipeline.md`를 자율적으로 먼저 실행하여 가이드라인을 생성해 낸 뒤 다시 이 단계로 돌아온다.
+  - **파일이 있다면:** 반드시 해당 가이드라인(`app_theme.dart`)에 명시된 디자인 토큰(색상, 여백 등)만을 사용하여 UI 위젯을 구현한다. 임의의 하드코딩은 엄격히 금지한다.
+- **[중요] Device API 연동 규칙:** 하드웨어를 제어하는 서비스는 반드시 **인터페이스(Interface)를 먼저 정의**하고, 실제 호출부에는 `// TODO: [Device API] <설명>` 주석을 남긴다.
+- 수정이 끝나면 프로젝트 환경에 맞춰 빌드하고, 에러 발생 시 스스로 분석하여 재빌드한다.
+
+### Step 3: 사용자 컨펌 대기 (Wait for User Approval)
+- 빌드가 성공하면 터미널 실행을 멈추고 채팅창에 다음 메시지를 출력하며 대기한다:
+  > "✅ 구현 및 빌드가 완료되었습니다. 원격 저장소에 Push하고 PR을 생성할까요?"
+- 사용자가 명시적으로 승인하기 전까지는 절대 다음 단계로 넘어가지 않는다.
+
+### Step 4: PR 생성 및 이슈 연결 (Pull Request)
+- 사용자의 승인이 떨어지면, 다음 순서로 Git 명령어를 실행한다:
+  1. `git checkout -b feature/issue-<ISSUE_NUMBER>`
+  2. `git add .`
+  3. `git commit -m "Resolve issue <ISSUE_NUMBER>: [한글 핵심 요약]"`
   4. `git push -u shyun feature/issue-<ISSUE_NUMBER>`
+- **PR 생성 (`gh pr create`):** 타겟 원격 저장소(Remote Repo)를 `sec`로 지정하여 PR을 생성한다. (에이전트는 사전에 `git remote -v` 등을 통해 `sec` 원격 저장소의 정확한 `<OWNER>/<REPO>` 경로를 스스로 파악한 뒤, `gh pr create --repo <OWNER>/<REPO> --head shyun:feature/issue-<ISSUE_NUMBER>` 형태로 명령어를 실행할 것). PR의 본문(`--body`)을 작성할 때, 이번 작업의 전반적인 요약과 함께 **Step 3에서 작성했던 `// TODO: [Device API]` 항목들을 찾아 리스트업**하고, 어떤 실제 디바이스 API 연동이 추가로 필요한지 구체적인 설명을 포함하여 작성한다. (PR 본문은 영어로 작성하며, 마지막에 `Resolves #<ISSUE_NUMBER>`를 포함한다.)
+
+
+### Step 5: 구현 내용 문서화 (Documentation & Diagramming)
+- 변경된 아키텍처와 수정된 파일 목록을 정리한다.
+- 구현 내용 문서 내에 **Mermaid 클래스 다이어그램**을 반드시 포함시키며, 다음 색상 규칙을 적용한다:
+  - 🟩 **새로 추가된 클래스:** `fill:#d4edda, stroke:#28a745`
+  - 🟨 **수정된 기존 클래스:** `fill:#fff3cd, stroke:#ffc107`
+  - ⬜ **유지된 연관 클래스:** 기본 색상
+- `doc/` 디렉터리에 `issue_<ISSUE_NUMBER>_implementation.md` 파일을 만들고, 내용은 **한국어**로 작성한다.`
 - **PR 생성 (`gh pr create`):** 타겟 원격 저장소(Remote Repo)를 `sec`로 지정하여 PR을 생성한다. (에이전트는 사전에 `git remote -v` 등을 통해 `sec` 원격 저장소의 정확한 `<OWNER>/<REPO>` 경로를 스스로 파악한 뒤, `gh pr create --repo <OWNER>/<REPO> --head shyun:feature/issue-<ISSUE_NUMBER>` 형태로 명령어를 실행할 것). PR의 본문(`--body`)을 작성할 때, 이번 작업의 전반적인 요약과 함께 **Step 3에서 작성했던 `// TODO: [Device API]` 항목들을 찾아 리스트업**하고, 어떤 실제 디바이스 API 연동이 추가로 필요한지 구체적인 설명을 포함하여 작성한다. (PR 본문은 영어로 작성하며, 마지막에 `Resolves #<ISSUE_NUMBER>`를 포함한다.)
 
 
