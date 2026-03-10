@@ -173,6 +173,7 @@ class AIProvider extends ChangeNotifier {
       notifyListeners();
     }
 
+    _sendMessage ??= _service.sendMessage(message);
     final response = await _sendMessage ?? '';
     _sendMessage = null;
 
