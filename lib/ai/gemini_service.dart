@@ -151,11 +151,29 @@ class GeminiService implements AIService {
         }
 
         // Return the companion text the AI provided alongside the function call.
-        // If the model gave no text, return an empty string rather than a placeholder.
         final companionText = response.text;
         if (companionText != null && companionText.trim().isNotEmpty) {
           return companionText;
         }
+
+        // If no companion text was generated with the function calls,
+        // send a success response back to Gemini to prompt a text follow-up!
+        final functionResponses =
+            functionCalls
+                .map(
+                  (call) => FunctionResponse(call.name, {'result': 'success'}),
+                )
+                .toList();
+
+        final followUpResponse = await _chat!.sendMessage(
+          Content.functionResponses(functionResponses),
+        );
+
+        final followUpText = followUpResponse.text;
+        if (followUpText != null && followUpText.trim().isNotEmpty) {
+          return followUpText;
+        }
+
         return '';
       }
 
