@@ -17,6 +17,13 @@ gai.Schema _convertSchema(Map<String, dynamic> schemaMap) {
   final type = schemaMap['type'] as String?;
   final description = schemaMap['description'] as String?;
   if (type == 'string') {
+    final enumValues = (schemaMap['enum'] as List<dynamic>?)?.cast<String>();
+    if (enumValues != null && enumValues.isNotEmpty) {
+      return gai.Schema.enumString(
+        description: description,
+        enumValues: enumValues,
+      );
+    }
     return gai.Schema.string(description: description);
   } else if (type == 'integer') {
     return gai.Schema.integer(description: description);

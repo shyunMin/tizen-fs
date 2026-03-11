@@ -249,7 +249,6 @@ class ActionManager {
         return false;
       }
     }
-    _eventController.add(ShowWidgetEvent(WidgetType.wifi, null));
     return true;
   }
 

@@ -96,6 +96,7 @@ class GeminiService implements AIService {
 
     try {
       final response = await _chat!.sendMessage(Content.text(message));
+      debugPrint(response.text);
 
       // Handle function call + companion text in the same response turn.
       final functionCalls = response.functionCalls.toList();
@@ -120,6 +121,21 @@ class GeminiService implements AIService {
             if (tool.name == call.name) {
               await tool.invoke(call.args);
               isA2ui = true;
+
+              if (call.name == 'surfaceUpdate' ||
+                  call.name == 'surface_update') {
+                final surfaceId = call.args['surfaceId'] as String?;
+                final components = call.args['components'] as List?;
+                if (surfaceId != null &&
+                    components != null &&
+                    components.isNotEmpty) {
+                  final String rootId = components.first['id'] as String;
+                  getIt<AIProvider>().a2uiProcessor.handleMessage(
+                    BeginRendering(surfaceId: surfaceId, root: rootId),
+                  );
+                }
+              }
+
               break;
             }
           }
@@ -135,12 +151,12 @@ class GeminiService implements AIService {
         }
 
         // Return the companion text the AI provided alongside the function call.
-        // If the model gave no text (some models omit it), give a sensible fallback.
+        // If the model gave no text, return an empty string rather than a placeholder.
         final companionText = response.text;
         if (companionText != null && companionText.trim().isNotEmpty) {
           return companionText;
         }
-        return '✅ Commands executed.';
+        return '';
       }
 
       // Normal conversation response (MODE A — no tool invoked).

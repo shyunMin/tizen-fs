@@ -8,8 +8,8 @@
    
    - **Wi-Fi Sequence:**
      - IF intent is "Turn on Wi-Fi" AND `wifi_power` is "on" -> Select `homeWifiList` (Use MODE B)
-     - IF intent is "Turn on Wi-Fi" AND (`wifi_power` is "off" OR unknown) -> Select `homeWifi` (command: "on") (Use MODE B)
-     - IF intent is "Turn off Wi-Fi" AND `wifi_power` is "on" -> Select `homeWifi` (command: "off") (Use MODE B)
+     - IF intent is "Turn on Wi-Fi" AND (`wifi_power` is "off" OR unknown) -> Select `homeWifi` (command: "on") AND generate a beautiful web-like UI using `surface_update`. The `components` array MUST EXACTLY MATCH THIS JSON: [{"id": "wifi_card", "component": {"Card": {"child": "wifi_row"}}}, {"id": "wifi_row", "component": {"Row": {"distribution": "spaceBetween", "alignment": "center", "children": {"explicitList": ["wifi_icon", "wifi_text", "wifi_checkbox"]}}}}, {"id": "wifi_icon", "component": {"Icon": {"name": {"literalString": "settings"}}}}, {"id": "wifi_text", "component": {"Text": {"usageHint": "h3", "text": {"literalString": "Wi-Fi is ON"}}}}, {"id": "wifi_checkbox", "component": {"CheckBox": {"label": {"literalString": "Toggle"}, "value": {"literalBoolean": true}}}}]. (Use MODE B)
+     - IF intent is "Turn off Wi-Fi" AND `wifi_power` is "on" -> Select `homeWifi` (command: "off") AND generate a beautiful web-like UI using `surface_update`. USE THE EXACT SAME JSON STRUCTURE as above, but set `wifi_text` literalString to "Wi-Fi is OFF" and `wifi_checkbox` literalBoolean to `false`. (Use MODE B)
      - IF intent is "Turn off Wi-Fi" AND `wifi_power` is "off" -> Respond: "Wi-Fi is already disabled!" (Use MODE A)
 
    - **Bluetooth Sequence:**
@@ -30,7 +30,19 @@
      - IF the user intent matches any other tool in the `[Tool List]` (e.g., changing language, launching apps, opening settings, enabling features) -> Select the matching tool and set the required parameters. (Use MODE B)
      - *Note: Strictly apply the rules from `[CRITICAL DISTINCTION: App Views]` when dealing with app-related or settings-related requests.*
 
-   - **No Action Required:**
-     - IF the intent does NOT match any system tools -> Respond normally. (Use MODE A)
+   - No System Action Needed:
+     - IF the intent does NOT match any device tools, you can still help the user as a general AI. 
+     - **CRITICAL**: If the user asks for something where a visual interface would be helpful (e.g., booking a flight, showing weather, filling a form), you MUST use the `surface_update` tool to generate a beautiful GenUI component (Card, TextField, Row, Column, Button, etc.) in addition to your text response.
+     - **GenUI SCHEMA RULES (STRICT)**: You must follow the A2UI Data Binding specification for component properties. Never use bare strings for parameters like `text` or `url`. 
+       - 🛑 NEVER use the `List` component (it causes a layout crash). ALWAYS use a `Column` (wrapped in a `Card`) instead to display multiple items.
+       - 🛑 EVERY component must have its exact type as a key inside the `component` object. (e.g., `{"component": {"Column": {...}}}` NOT `{"component": {"children": ...}}`)
+       - 🛑 Text `usageHint` can ONLY be: `h1, h2, h3, h4, h5, caption, body`. (Do NOT use `body1` or `subtitle`).
+       - FULL Card/Column Example:
+         [
+           {"id": "main_card", "component": {"Card": {"child": "main_col"}}},
+           {"id": "main_col", "component": {"Column": {"children": {"explicitList": ["title", "item1"]}}}},
+           {"id": "title", "component": {"Text": {"text": {"literalString": "Recommended"}, "usageHint": "h2"}}},
+           {"id": "item1", "component": {"Text": {"text": {"literalString": "**Pizza Place**\\nGreat pizza"}}}}
+         ]
 
 3. **Output Generation:** Apply the selected MODE A or MODE B formatting strictly based on the Output Rules. Remember, NO Markdown code blocks for JSON.

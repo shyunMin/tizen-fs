@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tizen_fs/ai/ai_service.dart';
+import 'package:tizen_fs/native/action_manager.dart';
 import 'package:genui/genui.dart';
 
 class ChatMessage {
@@ -73,7 +75,11 @@ class AIProvider extends ChangeNotifier {
     );
 
     a2uiProcessor.surfaceUpdates.listen((update) {
+      debugPrint('[AIProvider] Received surface update: ${update.toString()}');
       if (update is SurfaceAdded) {
+        debugPrint(
+          '[AIProvider] SurfaceAdded fired! Adding GenUiSurface to message history.',
+        );
         // Render the newly added GenUI surface into the chat log
         addSystemMessageWithWidget(
           GenUiSurface(host: a2uiProcessor, surfaceId: update.surfaceId),
@@ -180,11 +186,33 @@ class AIProvider extends ChangeNotifier {
     isThinking = false;
 
     // The AI's companion text is always returned as a normal response.
+    // However, if the response is a raw JSON string (e.g. from Gauss or fallback legacy mode),
+    // we should parse it, execute the action silently, and extract the text message.
+    String finalResponseText = response;
+
+    try {
+      final decoded = jsonDecode(response);
+      if (decoded is Map<String, dynamic>) {
+        if (decoded.containsKey('message')) {
+          finalResponseText = decoded['message'].toString();
+        }
+        if (decoded.containsKey('action')) {
+          final actionInfo = decoded['action'];
+          if (actionInfo is Map<String, dynamic>) {
+            // Execute the action natively
+            ActionManager.runAction(actionInfo);
+          }
+        }
+      }
+    } catch (_) {
+      // Not a valid JSON string (expected case for direct text replies).
+    }
+
     // UI rendering (SurfaceAdded) is handled independently via a2uiProcessor stream.
-    responseMessage = response;
+    responseMessage = finalResponseText;
 
     _messageHistory.add(
-      ChatMessage(content: response, isUser: false, isGenUi: false),
+      ChatMessage(content: finalResponseText, isUser: false, isGenUi: false),
     );
 
     notifyListeners();

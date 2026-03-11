@@ -35,8 +35,6 @@ class _ActionPageState extends State<ActionPage> {
 
   late AIProvider _aiProvider;
   bool isAiEnabled = false;
-  Widget? _widget;
-  DateTime? _widgetTimestamp;
 
   @override
   void initState() {
@@ -160,9 +158,6 @@ class _ActionPageState extends State<ActionPage> {
       final aiProvider = context.read<AIProvider>();
       final history = aiProvider.messageHistory;
 
-      _widget = newWidget;
-      _widgetTimestamp = DateTime.now();
-
       if (history.isNotEmpty && !history.last.isUser) {
         // Attach to the last AI message (aiProvider.notifyListeners will trigger rebuild)
         aiProvider.updateLastMessageWithWidget(newWidget);
@@ -266,22 +261,6 @@ class _ActionPageState extends State<ActionPage> {
     );
   }
 
-  bool _isWidgetAttachedToMessage() {
-    if (_widgetTimestamp == null) return false;
-
-    final history = context.read<AIProvider>().messageHistory;
-    if (history.isEmpty) return false;
-
-    // Check if the last AI message was created after the widget
-    final lastAiMessage = history.lastWhere(
-      (msg) => !msg.isUser,
-      orElse: () => history.first,
-    );
-
-    return lastAiMessage.widget != null &&
-        lastAiMessage.timestamp.isAfter(_widgetTimestamp!);
-  }
-
   Widget _buildMessageBubble(ChatMessage chatMessage) {
     if (chatMessage.isUser) {
       // User message bubble (right-aligned)
@@ -334,7 +313,18 @@ class _ActionPageState extends State<ActionPage> {
                 ),
               ),
             // Display widget if attached to this message
-            if (chatMessage.widget != null) chatMessage.widget!,
+            if (chatMessage.widget != null)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
+                  ),
+                  child: chatMessage.widget!,
+                ),
+              ),
           ],
         ),
       );
@@ -352,13 +342,6 @@ class _ActionPageState extends State<ActionPage> {
         context.read<AIProvider>().sendMessage(message);
       }
     } else {
-      // Only clear widget if a direct action is being executed
-      // Keep existing widget if it was attached to a message
-      if (!_isWidgetAttachedToMessage()) {
-        _widget = null;
-        _widgetTimestamp = null;
-      }
-
       await ActionManager.runAction(actionData);
     }
   }
